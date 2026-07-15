@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acácia724 — Agenda A∴R∴L∴S∴ Acácia de Sousas Nº 724</title>
+<style>
+:root{
+  --bg:#0f1b2d; --bg-card:#16273f; --bg-elev:#1c2f4a; --border:#2a3f5f;
+  --text:#e8eef7; --text-dim:#9fb0c8; --accent:#d4af37; --accent-dim:#a8862a;
+  --blue:#3a6ea5; --danger:#c0483f; --success:#3f9e5c;
+  --input-bg:#1c2f4a; --input-text:#e8eef7;
+  --shadow: 0 2px 10px rgba(0,0,0,.35);
+}
+html[data-theme="light"]{
+  --bg:#f4f6fa; --bg-card:#ffffff; --bg-elev:#eef1f7; --border:#dbe2ee;
+  --text:#182437; --text-dim:#5a6b85; --accent:#a8862a; --accent-dim:#8a6d1f;
+  --blue:#2f5d8a; --danger:#b6392f; --success:#2e7d46;
+  --input-bg:#eef1f7; --input-text:#182437;
+  --shadow: 0 2px 10px rgba(20,30,50,.08);
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+button,input,select,textarea{font-family:inherit;}
+.hidden{display:none !important;}
+
+/* ---------- lock screen ---------- */
+#lockScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+.lockBox{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:32px;width:100%;max-width:380px;box-shadow:var(--shadow);text-align:center;}
+.lockBox h1{font-size:1.3em;margin:0 0 4px;color:var(--accent);}
+.lockBox p{color:var(--text-dim);font-size:.9em;margin:0 0 20px;}
+.lockBox input{width:100%;padding:12px;border-radius:8px;border:1px solid var(--border);background:var(--bg-elev);color:var(--text);margin-bottom:12px;font-size:1em;}
+.lockBox button{width:100%;padding:12px;border-radius:8px;border:none;background:var(--accent);color:#1a1408;font-weight:bold;cursor:pointer;font-size:1em;}
+.lockBox button:hover{background:var(--accent-dim);}
+.lockErr{color:var(--danger);font-size:.85em;min-height:18px;margin-bottom:8px;}
+
+/* ---------- app shell ---------- */
+#app{max-width:1000px;margin:0 auto;padding:16px;}
+header.appHead{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 4px;border-bottom:1px solid var(--border);margin-bottom:14px;flex-wrap:wrap;}
+header.appHead h1{font-size:1.15em;margin:0;color:var(--accent);}
+header.appHead .sub{color:var(--text-dim);font-size:.8em;}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
+.tabBtn{padding:9px 14px;border-radius:8px;border:1px solid var(--border);background:var(--bg-card);color:var(--text-dim);cursor:pointer;font-size:.92em;}
+.tabBtn.active{background:var(--accent);color:#1a1408;border-color:var(--accent);font-weight:bold;}
+.tabPanel{display:none;}
+.tabPanel.active{display:block;}
+
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow);}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+.grow{flex:1;min-width:180px;}
+input[type=text],input[type=email],input[type=password],input[type=search],textarea,select{
+  width:100%;padding:9px 10px;border-radius:7px;border:1px solid var(--border);background:var(--input-bg);color:var(--input-text);font-size:.92em;
+}
+input[type=color]{width:44px;height:34px;padding:2px;border-radius:7px;border:1px solid var(--border);background:var(--bg-elev);cursor:pointer;}
+.colorRow{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.colorRow label{margin:0;flex:1;font-size:.85em;color:var(--text);}
+textarea{resize:vertical;min-height:70px;}
+label{display:block;font-size:.78em;color:var(--text-dim);margin:8px 0 4px;}
+.btn{padding:9px 14px;border-radius:7px;border:1px solid var(--border);background:var(--bg-elev);color:var(--text);cursor:pointer;font-size:.9em;}
+.btn:hover{border-color:var(--accent);}
+.btn-primary{background:var(--accent);color:#1a1408;border-color:var(--accent);font-weight:bold;}
+.btn-primary:hover{background:var(--accent-dim);}
+.btn-danger{color:var(--danger);}
+.btn-sm{padding:5px 9px;font-size:.8em;}
+
+.memberCard{border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:10px;background:var(--bg-elev);}
+.memberCard h3{margin:0 0 2px;font-size:1em;}
+.memberCard .apelido{color:var(--accent);font-weight:bold;}
+.memberCard .meta{color:var(--text-dim);font-size:.82em;line-height:1.5;margin-top:6px;}
+.famList{margin-top:8px;font-size:.85em;}
+.famList .tag{display:inline-block;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:2px 8px;margin:2px 4px 2px 0;}
+.memberActions{margin-top:10px;display:flex;gap:8px;}
+
+.eventRow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;border:1px solid var(--border);margin-bottom:6px;background:var(--bg-elev);}
+.eventRow.tomorrow{border-color:var(--accent);background:rgba(212,175,55,.08);}
+.eventRow .who{font-weight:bold;}
+.eventRow .when{color:var(--text-dim);font-size:.82em;}
+.badge{font-size:.72em;padding:2px 7px;border-radius:20px;background:var(--blue);color:#fff;}
+.badge.casamento{background:#7a4fa0;}
+.badge.filho{background:var(--success);}
+.badge.conjuge{background:#b5652f;}
+
+.monthBlock h4{margin:16px 0 6px;color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:4px;}
+
+.modalBg{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:flex-start;justify-content:center;padding:30px 14px;overflow:auto;z-index:50;}
+.modal{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px;width:100%;max-width:560px;box-shadow:var(--shadow);}
+.modal h2{margin-top:0;font-size:1.1em;color:var(--accent);}
+.filhoRow{display:flex;gap:8px;margin-bottom:6px;align-items:center;}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--bg-card);border:1px solid var(--accent);color:var(--text);padding:10px 18px;border-radius:8px;box-shadow:var(--shadow);z-index:100;font-size:.9em;}
+.toast.err{border-color:var(--danger);}
+
+.themeGrid{display:flex;gap:10px;}
+.themeOpt{flex:1;border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;cursor:pointer;}
+.themeOpt.active{border-color:var(--accent);}
+
+.calHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.calHead strong{color:var(--accent);}
+.calNavBtn{border:1px solid var(--border);background:var(--bg-elev);color:var(--text);border-radius:7px;padding:4px 10px;cursor:pointer;}
+.calGrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
+.calDow{text-align:center;font-size:.72em;color:var(--text-dim);padding:2px 0;}
+.calDay{position:relative;aspect-ratio:1;border:1px solid var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.82em;cursor:pointer;background:var(--bg-elev);}
+.calDay.otherMonth{opacity:.35;}
+.calDay.today{border-color:var(--accent);font-weight:bold;}
+.calDay.hasEvent{background:rgba(212,175,55,.16);border-color:var(--accent-dim);}
+.calDay .dotsWrap{position:absolute;bottom:3px;left:50%;transform:translateX(-50%);display:flex;gap:2px;}
+.calDay .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);}
+.calDay .dot.dotSession{background:var(--blue);}
+.calDay .dot.dotSpecial{background:#8a5fc4;}
+.calDay.hasSession{border-color:var(--blue);}
+.calDay.hasSpecial{border-color:#8a5fc4;}
+.calDay.selected{outline:2px solid var(--accent);}
+#calDayEvents{margin-top:12px;}
+.badge.especial{background:#8a5fc4;}
+.badge.sessao{background:var(--blue);}
+.scrollList{max-height:340px;overflow-y:auto;}
+.paletteGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
+.paletteCard{border:1px solid var(--border);border-radius:10px;padding:10px;cursor:pointer;background:var(--bg-elev);}
+.paletteCard:hover{border-color:var(--accent);}
+.paletteCard.activePalette{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);}
+.paletteDots{display:flex;gap:4px;margin-bottom:6px;}
+.paletteDots span{width:20px;height:20px;border-radius:50%;border:1px solid rgba(255,255,255,.2);}
+.paletteName{font-size:.8em;}
+.filterChips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.chip{display:flex;align-items:center;gap:6px;border:1px solid var(--border);background:var(--bg-elev);border-radius:20px;padding:6px 12px;font-size:.85em;cursor:pointer;user-select:none;}
+.chip input{margin:0;accent-color:var(--accent);}
+.chip.badge-irmao{border-color:var(--blue);}
+.filterActions{margin-top:8px;}
+.filterActions a{color:var(--accent-dim);font-size:.78em;cursor:pointer;margin-right:12px;}
+small.hint{color:var(--text-dim);}
+</style>
+</head>
+<body>
+
+<div id="lockScreen">
+  <div class="lockBox">
+    <h1>🔷 Acácia724</h1>
+    <p id="lockSub">A∴R∴L∴S∴ Acácia de Sousas Nº 724</p>
+    <div id="lockErr" class="lockErr"></div>
+    <input type="password" id="lockInput" placeholder="Senha de acesso">
+    <button id="lockBtn" class="btn-primary">Entrar</button>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+  <header class="appHead">
+    <div>
+      <h1>🔷 Acácia724</h1>
+      <div class="sub">Membros, familiares e aniversários</div>
+    </div>
+    <button class="btn btn-sm" id="lockNowBtn">🔒 Bloquear</button>
+  </header>
+
+  <div class="tabs">
+    <button class="tabBtn active" data-tab="calendario">🗓️ Calendário</button>
+    <button class="tabBtn" data-tab="sessoes">📖 Sessões</button>
+    <button class="tabBtn" data-tab="especiais">⭐ Datas Especiais</button>
+    <button class="tabBtn" data-tab="membros">📋 Membros</button>
+    <button class="tabBtn" data-tab="aniversarios">🎂 Aniversários</button>
+    <button class="tabBtn" data-tab="nuvem">☁️ Nuvem</button>
+    <button class="tabBtn" data-tab="aparencia">🎨 Aparência</button>
+    <button class="tabBtn" data-tab="seguranca">🔒 Segurança</button>
+  </div>
+
+  <!-- CALENDARIO -->
+  <div class="tabPanel active" id="tab-calendario">
+    <div class="card">
+      <strong>Filtrar aniversários</strong>
+      <div class="filterChips">
+        <label class="chip"><input type="checkbox" class="eventFilterChk" data-type="irmao" checked> 🔷 Irmãos</label>
+        <label class="chip"><input type="checkbox" class="eventFilterChk" data-type="conjuge" checked> 🧡 Cônjuges</label>
+        <label class="chip"><input type="checkbox" class="eventFilterChk" data-type="filho" checked> 💚 Filhos(as)</label>
+        <label class="chip"><input type="checkbox" class="eventFilterChk" data-type="casamento" checked> 💜 Casamento</label>
+      </div>
+      <div class="filterActions">
+        <a id="filterAllBtn">Marcar todos</a><a id="filterNoneBtn">Limpar</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="calHead">
+        <button class="calNavBtn" id="calPrevBtn">‹</button>
+        <strong id="calLabel"></strong>
+        <button class="calNavBtn" id="calNextBtn">›</button>
+      </div>
+      <div class="calGrid" id="calGrid"></div>
+      <div id="calDayEvents"></div>
+    </div>
+  </div>
+
+  <!-- SESSOES -->
+  <div class="tabPanel" id="tab-sessoes">
+    <div class="card">
+      <strong>📖 Sessões da Loja</strong>
+      <p><small class="hint">Quintas-feiras, 20h às 22h. Gere um intervalo de datas de uma vez (já vem com Ago–Dez/2026 e Fev–Jun/2027 pré-carregados), edite o assunto de cada sessão ou exclua sessões avulsas quando houver recesso.</small></p>
+      <div class="row">
+        <div class="grow"><label>De</label><input type="text" id="sessRangeStart" placeholder="DD/MM/AAAA"></div>
+        <div class="grow"><label>Até</label><input type="text" id="sessRangeEnd" placeholder="DD/MM/AAAA"></div>
+        <div class="grow"><label>Horário</label><input type="text" id="sessRangeHorario" value="20:00-22:00"></div>
+      </div>
+      <div class="row" style="margin-top:8px;">
+        <button class="btn btn-primary" id="generateSessionsBtn">+ Gerar sessões (quintas-feiras)</button>
+      </div>
+    </div>
+    <div class="card">
+      <strong>Todas as sessões</strong>
+      <div id="sessoesList" class="scrollList" style="margin-top:10px;"></div>
+    </div>
+  </div>
+
+  <!-- DATAS ESPECIAIS -->
+  <div class="tabPanel" id="tab-especiais">
+    <div class="card">
+      <div class="row" style="justify-content:space-between;">
+        <strong>⭐ Datas especiais</strong>
+        <button class="btn btn-primary btn-sm" id="addSpecialBtn">+ Nova data especial</button>
+      </div>
+      <p><small class="hint">Use DD/MM para uma comemoração que se repete todo ano (ex: fundação da Loja), ou DD/MM/AAAA para uma data única.</small></p>
+      <div id="specialList" class="scrollList" style="margin-top:10px;"></div>
+    </div>
+  </div>
+
+  <!-- MEMBROS -->
+  <div class="tabPanel" id="tab-membros">
+    <div class="card">
+      <div class="row">
+        <input type="search" id="searchMembers" class="grow" placeholder="Buscar Irmão ou familiar...">
+        <button class="btn btn-primary" id="addMemberBtn">+ Novo Membro</button>
+        <button class="btn" id="exportBtn">⬇ Exportar JSON</button>
+        <button class="btn" id="importBtn">⬆ Importar JSON</button>
+        <input type="file" id="importFile" accept=".json" class="hidden">
+      </div>
+    </div>
+    <div id="membersList"></div>
+  </div>
+
+  <!-- ANIVERSARIOS -->
+  <div class="tabPanel" id="tab-aniversarios">
+    <div class="card">
+      <strong>Filtrar aniversários</strong>
+      <div class="filterChips">
+        <label class="chip"><input type="checkbox" class="eventFilterChk" data-type="irmao" checked> 🔷 Irmãos</label>
+        <label class="chip"><input type="checkbox" class="eventFilterChk" data-type="conjuge" checked> 🧡 Cônjuges</label>
+        <label class="chip"><input type="checkbox" class="eventFilterChk" data-type="filho" checked> 💚 Filhos(as)</label>
+        <label class="chip"><input type="checkbox" class="eventFilterChk" data-type="casamento" checked> 💜 Casamento</label>
+      </div>
+      <div class="filterActions">
+        <a id="filterAllBtn2">Marcar todos</a><a id="filterNoneBtn2">Limpar</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="row">
+        <div class="grow">
+          <div id="birthdayHeadline"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="row" style="justify-content:space-between;">
+        <strong>Próximos 30 dias</strong>
+      </div>
+      <div id="upcomingList" style="margin-top:10px;"></div>
+    </div>
+    <div class="card">
+      <strong>Calendário completo</strong>
+      <div id="fullCalendar"></div>
+    </div>
+  </div>
+
+  <!-- NUVEM -->
+  <div class="tabPanel" id="tab-nuvem">
+    <div class="card">
+      <strong>Sincronização em nuvem (Firebase)</strong>
+      <p><small class="hint">Cole aqui a configuração (firebaseConfig) do seu projeto Firebase. Os dados ficam salvos localmente neste navegador mesmo sem nuvem; a nuvem serve para sincronizar entre dispositivos.</small></p>
+      <label>Configuração do Firebase (JSON)</label>
+      <textarea id="firebaseConfigInput" placeholder='{"apiKey": "...", "projectId": "...", ...}'></textarea>
+      <div class="row" style="margin-top:8px;">
+        <button class="btn" id="saveFirebaseConfigBtn">Salvar configuração</button>
+      </div>
+      <div id="cloudAuthArea" style="margin-top:14px;"></div>
+    </div>
+  </div>
+
+  <!-- APARENCIA -->
+  <div class="tabPanel" id="tab-aparencia">
+    <div class="card">
+      <strong>Tema</strong>
+      <div class="themeGrid" style="margin-top:10px;">
+        <div class="themeOpt" id="themeDarkOpt">🌙 Escuro</div>
+        <div class="themeOpt" id="themeLightOpt">☀️ Claro</div>
+      </div>
+    </div>
+    <div class="card">
+      <strong>Paleta de cores</strong>
+      <p><small class="hint">Clique numa paleta para aplicar um conjunto de cores de uma vez. Depois é só ajustar fino nos seletores individuais abaixo, se quiser.</small></p>
+      <div class="paletteGrid" id="paletteGrid" style="margin-top:10px;"></div>
+    </div>
+    <div class="card">
+      <strong>Cores personalizadas</strong>
+      <p><small class="hint">Ajuste as cores do app, inclusive das caixas de texto. As alterações são salvas neste navegador.</small></p>
+      <div style="margin-top:12px;">
+        <div class="colorRow"><label>Cor de destaque (botões, título)</label><input type="color" id="colorAccent"></div>
+        <div class="colorRow"><label>Cor de fundo geral</label><input type="color" id="colorBg"></div>
+        <div class="colorRow"><label>Cor dos cartões</label><input type="color" id="colorCard"></div>
+        <div class="colorRow"><label>Cor de fundo das caixas de texto</label><input type="color" id="colorInputBg"></div>
+        <div class="colorRow"><label>Cor do texto nas caixas de texto</label><input type="color" id="colorInputText"></div>
+        <div class="colorRow"><label>Cor do texto geral</label><input type="color" id="colorText"></div>
+      </div>
+      <div class="row" style="margin-top:6px;">
+        <button class="btn" id="resetColorsBtn">↺ Restaurar cores padrão do tema</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEGURANCA -->
+  <div class="tabPanel" id="tab-seguranca">
+    <div class="card">
+      <strong>Senha local</strong>
+      <p><small class="hint">Protege a agenda contra acesso não autorizado neste dispositivo.</small></p>
+      <label>Nova senha</label>
+      <input type="password" id="newPasswordInput">
+      <label>Confirmar nova senha</label>
+      <input type="password" id="confirmPasswordInput">
+      <div class="row" style="margin-top:10px;">
+        <button class="btn btn-primary" id="changePasswordBtn">Salvar senha</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modalRoot"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.15.0/firebase-app-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.15.0/firebase-firestore-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.15.0/firebase-auth-compat.js"></script>
+<script>
+/* ============================================================
+   DADOS INICIAIS — extraídos da lista da Chancelaria 2024/2025
+   ARLS Acácia de Sousas Nº 724
+   ============================================================ */
+const SEED_MEMBERS = []; // dados reais vivem só no Firestore/backup importado — nada de PII no código-fonte publicado
+</script>
+<script>
+/* ============================================================
+   ESTADO, ARMAZENAMENTO E UTILITÁRIOS
+   ============================================================ */
+const K = {
+  data: 'acacia724Data',
+  authHash: 'acacia724AuthHash',
+  unlocked: 'acacia724Unlocked',
+  theme: 'acacia724Theme',
+  fbConfig: 'acacia724FirebaseConfig',
+  syncCode: 'acacia724SyncCode'
+};
+
+let state = { members: [] };
+let editingId = null;
+const WRITER_ID = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()));
+let fbApp = null, fbAuth = null, fbDb = null, cloudUnsub = null, pushTimer = null;
+
+function uid(){ return 'm_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,8); }
+
+async function sha256Hex(text){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+function loadData(){
+  const raw = localStorage.getItem(K.data);
+  if(raw){ try{ state = JSON.parse(raw); }catch(e){ state = {members:[]}; } }
+  else { seedData(); }
+  if(!state.members) state.members = [];
+  if(!state.sessoes) state.sessoes = [];
+  if(!state.datasEspeciais) state.datasEspeciais = [];
+  seedSessoesIfNeeded();
+}
+
+/* ---------- sessões (quintas-feiras) e datas especiais ---------- */
+function generateThursdays(startStr, endStr){
+  const s = parseDatePart(startStr), e = parseDatePart(endStr);
+  if(!s || !e || !s.year || !e.year) return [];
+  const start = new Date(s.year, s.month-1, s.day);
+  const end = new Date(e.year, e.month-1, e.day);
+  if(end < start) return [];
+  const out = [];
+  const d = new Date(start);
+  const dow = d.getDay();
+  const diff = (4 - dow + 7) % 7; // 4 = quinta-feira
+  d.setDate(d.getDate() + diff);
+  while(d <= end){
+    out.push(fmtDatePart({day:d.getDate(), month:d.getMonth()+1, year:d.getFullYear()}));
+    d.setDate(d.getDate() + 7);
+  }
+  return out;
+}
+function addSessoes(dates, horario, titulo){
+  let added = 0;
+  dates.forEach(dataStr => {
+    if(!state.sessoes.some(s => s.data === dataStr)){
+      state.sessoes.push({ id:uid(), data:dataStr, horario: horario||'20:00-22:00', titulo: titulo||'Sessão Ordinária', assunto:'', observacoes:'' });
+      added++;
+    }
+  });
+  return added;
+}
+function seedSessoesIfNeeded(){
+  if(state._sessoesSeeded) return;
+  addSessoes(generateThursdays('01/08/2026','31/12/2026'), '20:00-22:00', 'Sessão Ordinária');
+  addSessoes(generateThursdays('01/02/2027','30/06/2027'), '20:00-22:00', 'Sessão Ordinária');
+  state._sessoesSeeded = true;
+  saveData({skipCloud:true});
+}
+function sessoesForMonth(year, month){
+  return (state.sessoes||[]).filter(s => {
+    const d = parseDatePart(s.data);
+    return d && d.year === year && d.month === month;
+  }).map(s => Object.assign({}, s, parseDatePart(s.data)));
+}
+function specialForMonth(year, month){
+  return (state.datasEspeciais||[]).filter(s => {
+    const d = parseDatePart(s.data);
+    return d && d.month === month && (d.year === null || d.year === year);
+  }).map(s => Object.assign({}, s, parseDatePart(s.data)));
+}
+
+function seedData(){
+  state = { members: SEED_MEMBERS.map(m => Object.assign({id: uid()}, m)) };
+  saveData({skipCloud:true});
+}
+
+function saveData(opts){
+  opts = opts || {};
+  localStorage.setItem(K.data, JSON.stringify(state));
+  if(!opts.skipCloud) scheduleCloudPush();
+  renderAll();
+}
+
+function showToast(msg, type){
+  const t = document.createElement('div');
+  t.className = 'toast' + (type==='error' ? ' err' : '');
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(), 2600);
+}
+
+/* ---------- datas ---------- */
+function parseDatePart(str){
+  if(!str) return null;
+  const m = String(str).trim().match(/^(\d{1,2})\/(\d{1,2})(?:\/(\d{4}))?$/);
+  if(!m) return null;
+  return { day: parseInt(m[1],10), month: parseInt(m[2],10), year: m[3] ? parseInt(m[3],10) : null };
+}
+function fmtDatePart(p){
+  if(!p) return '';
+  const dd = String(p.day).padStart(2,'0'), mm = String(p.month).padStart(2,'0');
+  return p.year ? `${dd}/${mm}/${p.year}` : `${dd}/${mm}`;
+}
+function daysUntil(day, month){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const y = today.getFullYear();
+  let target = new Date(y, month-1, day);
+  target.setHours(0,0,0,0);
+  if(target < today) target = new Date(y+1, month-1, day);
+  return Math.round((target - today) / 86400000);
+}
+const MONTH_NAMES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+/* ---------- filtro por tipo de evento ---------- */
+const FILTERS_KEY = 'acacia724EventFilters';
+const FILTER_TYPES = ['irmao','conjuge','filho','casamento'];
+function getEventFilters(){
+  let saved = null;
+  try{ saved = JSON.parse(localStorage.getItem(FILTERS_KEY)); }catch(e){}
+  return Object.assign({irmao:true, conjuge:true, filho:true, casamento:true}, saved || {});
+}
+function setEventFilters(filters){
+  localStorage.setItem(FILTERS_KEY, JSON.stringify(filters));
+  syncFilterCheckboxes();
+  renderAll();
+}
+function setEventFilter(type, value){
+  const f = getEventFilters();
+  f[type] = value;
+  setEventFilters(f);
+}
+function syncFilterCheckboxes(){
+  const f = getEventFilters();
+  document.querySelectorAll('.eventFilterChk').forEach(chk => {
+    chk.checked = f[chk.dataset.type] !== false;
+  });
+}
+function filterEventsByType(events){
+  const f = getEventFilters();
+  return events.filter(e => f[e.tipo] !== false);
+}
+function initEventFilters(){
+  syncFilterCheckboxes();
+  document.querySelectorAll('.eventFilterChk').forEach(chk => {
+    chk.addEventListener('change', () => setEventFilter(chk.dataset.type, chk.checked));
+  });
+  const allBtns = [document.getElementById('filterAllBtn'), document.getElementById('filterAllBtn2')];
+  const noneBtns = [document.getElementById('filterNoneBtn'), document.getElementById('filterNoneBtn2')];
+  allBtns.forEach(btn => { if(btn) btn.onclick = () => setEventFilters({irmao:true,conjuge:true,filho:true,casamento:true}); });
+  noneBtns.forEach(btn => { if(btn) btn.onclick = () => setEventFilters({irmao:false,conjuge:false,filho:false,casamento:false}); });
+}
+
+/* ---------- eventos (aniversários) a partir dos membros ---------- */
+function buildEvents(){
+  const events = [];
+  state.members.forEach(m => {
+    const nasc = parseDatePart(m.nascimento);
+    if(nasc) events.push({tipo:'irmao', label:'Irmão', nome:m.nome, apelido:m.apelido, day:nasc.day, month:nasc.month,
+      memberId:m.id, memberNome:m.nome, celular:m.celular});
+    if(m.conjuge){
+      const cn = parseDatePart(m.conjuge.nascimento);
+      if(cn) events.push({tipo:'conjuge', label:'Cônjuge', nome:m.conjuge.nome, apelido:m.conjuge.nome, day:cn.day, month:cn.month,
+        memberId:m.id, memberNome:m.nome, celular:m.celular});
+    }
+    (m.filhos||[]).forEach(f => {
+      const fn = parseDatePart(f.nascimento);
+      if(fn) events.push({tipo:'filho', label:'Filho(a)', nome:f.nome, apelido:f.nome, day:fn.day, month:fn.month,
+        memberId:m.id, memberNome:m.nome, celular:m.celular});
+    });
+    if(m.casamento){
+      const cd = parseDatePart(m.casamento);
+      const conjugeNome = m.conjuge ? m.conjuge.nome : '(cônjuge)';
+      if(cd) events.push({tipo:'casamento', label:'Casamento', nome:`${m.apelido||m.nome} & ${conjugeNome}`, apelido:null, day:cd.day, month:cd.month,
+        memberId:m.id, memberNome:m.nome, celular:m.celular});
+    }
+  });
+  events.forEach(e => e.dias = daysUntil(e.day, e.month));
+  events.sort((a,b) => a.dias - b.dias);
+  return events;
+}
+
+function badgeClass(tipo){
+  return tipo === 'casamento' ? 'casamento' : tipo === 'filho' ? 'filho' : tipo === 'conjuge' ? 'conjuge' : '';
+}
+function badgeLabel(tipo){
+  return tipo==='irmao' ? 'Irmão' : tipo==='conjuge' ? 'Cônjuge' : tipo==='filho' ? 'Filho(a)' : 'Casamento';
+}
+
+/* ---------- mensagem de parabéns ---------- */
+function buildMessage(ev){
+  const loja = 'Loja Acácia de Sousas';
+  if(ev.tipo === 'irmao'){
+    return `Caro Irmão ${ev.apelido||ev.nome}, em nome de toda a ${loja}, desejamos um feliz aniversário! Que a T∴G∴A∴D∴U∴ continue a abençoar sua vida com saúde, paz e prosperidade. Um forte e fraternal abraço! 🎉`;
+  }
+  if(ev.tipo === 'conjuge'){
+    return `Querida ${ev.nome}, a família da ${loja} deseja a você um feliz aniversário! Que este novo ciclo seja repleto de alegrias e realizações. Um grande abraço! 🎉`;
+  }
+  if(ev.tipo === 'filho'){
+    return `Parabéns, ${ev.nome}! A família da ${loja} deseja a você um dia repleto de alegria. Um grande abraço! 🎉`;
+  }
+  return `Parabéns pelo aniversário de casamento, ${ev.nome}! Que a união de vocês continue sendo exemplo de amor e parceria. Um abraço fraternal da ${loja}! 💍🎉`;
+}
+function whatsappLink(celular, texto){
+  if(!celular) return null;
+  let digits = celular.replace(/\D/g,'');
+  if(digits.length <= 11) digits = '55' + digits;
+  return `https://wa.me/${digits}?text=${encodeURIComponent(texto)}`;
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderAll(){
+  renderMembers(document.getElementById('searchMembers').value);
+  renderBirthdays();
+  renderCalendar();
+  renderSessoesList();
+  renderSpecialList();
+}
+
+/* ============================================================
+   CALENDÁRIO (aba Membros)
+   ============================================================ */
+let calendarViewDate = new Date();
+calendarViewDate.setDate(1);
+const DOW_NAMES = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+
+function renderCalendar(){
+  const grid = document.getElementById('calGrid');
+  if(!grid) return;
+  const y = calendarViewDate.getFullYear(), m = calendarViewDate.getMonth();
+  document.getElementById('calLabel').textContent = MONTH_NAMES[m] + ' ' + y;
+
+  const eventsByDay = {};
+  filterEventsByType(buildEvents()).forEach(e => {
+    if(e.month === m+1){
+      (eventsByDay[e.day] = eventsByDay[e.day] || []).push(e);
+    }
+  });
+  const sessByDay = {};
+  sessoesForMonth(y, m+1).forEach(s => { (sessByDay[s.day] = sessByDay[s.day] || []).push(s); });
+  const specByDay = {};
+  specialForMonth(y, m+1).forEach(s => { (specByDay[s.day] = specByDay[s.day] || []).push(s); });
+
+  const firstDow = new Date(y, m, 1).getDay();
+  const daysInMonth = new Date(y, m+1, 0).getDate();
+  const daysInPrevMonth = new Date(y, m, 0).getDate();
+  const todayD = new Date(); todayD.setHours(0,0,0,0);
+
+  const cells = [];
+  for(let i=firstDow-1; i>=0; i--) cells.push({day: daysInPrevMonth-i, other:true});
+  for(let d=1; d<=daysInMonth; d++) cells.push({day:d, other:false});
+  let nextDay = 1;
+  while(cells.length % 7 !== 0){ cells.push({day: nextDay++, other:true}); }
+
+  let html = DOW_NAMES.map(d => `<div class="calDow">${d}</div>`).join('');
+  cells.forEach(c => {
+    const isToday = !c.other && y===todayD.getFullYear() && m===todayD.getMonth() && c.day===todayD.getDate();
+    const dayEvents = !c.other ? (eventsByDay[c.day]||[]) : [];
+    const daySess = !c.other ? (sessByDay[c.day]||[]) : [];
+    const daySpec = !c.other ? (specByDay[c.day]||[]) : [];
+    const cls = ['calDay'];
+    if(c.other) cls.push('otherMonth');
+    if(isToday) cls.push('today');
+    if(dayEvents.length) cls.push('hasEvent');
+    if(daySess.length) cls.push('hasSession');
+    if(daySpec.length) cls.push('hasSpecial');
+    const titleParts = [...dayEvents.map(e=>e.nome), ...daySess.map(s=>s.titulo), ...daySpec.map(s=>s.titulo)];
+    const dots = [];
+    if(dayEvents.length) dots.push('<span class="dot"></span>');
+    if(daySess.length) dots.push('<span class="dot dotSession"></span>');
+    if(daySpec.length) dots.push('<span class="dot dotSpecial"></span>');
+    html += `<div class="${cls.join(' ')}" data-day="${c.day}" data-other="${c.other}" title="${escapeHtml(titleParts.join(', '))}">${c.day}${dots.length?'<span class="dotsWrap">'+dots.join('')+'</span>':''}</div>`;
+  });
+  grid.innerHTML = html;
+
+  grid.querySelectorAll('.calDay').forEach(cell => {
+    cell.onclick = () => {
+      if(cell.dataset.other === 'true') return;
+      grid.querySelectorAll('.calDay').forEach(c=>c.classList.remove('selected'));
+      cell.classList.add('selected');
+      showDayEvents(parseInt(cell.dataset.day,10), m+1, y);
+    };
+  });
+}
+
+function showDayEvents(day, month, year){
+  const events = filterEventsByType(buildEvents()).filter(e => e.day===day && e.month===month);
+  const sess = year ? sessoesForMonth(year, month).filter(s => s.day===day) : [];
+  const spec = year ? specialForMonth(year, month).filter(s => s.day===day) : [];
+  const box = document.getElementById('calDayEvents');
+  const dateStr = String(day).padStart(2,'0') + '/' + String(month).padStart(2,'0');
+  let html = `<strong>${dateStr}</strong>`;
+  html += sess.map(s => sessionRowHtml(s)).join('');
+  html += spec.map(s => specialRowHtml(s)).join('');
+  html += events.map(e => eventRowHtml(e, e.dias===1)).join('');
+  if(!sess.length && !spec.length && !events.length) html += `<div><small class="hint">Nada marcado em ${dateStr}.</small></div>`;
+  box.innerHTML = html;
+}
+
+function initCalendar(){
+  document.getElementById('calPrevBtn').onclick = () => { calendarViewDate.setMonth(calendarViewDate.getMonth()-1); renderCalendar(); };
+  document.getElementById('calNextBtn').onclick = () => { calendarViewDate.setMonth(calendarViewDate.getMonth()+1); renderCalendar(); };
+  renderCalendar();
+}
+
+function memberFamilyLine(m){
+  const parts = [];
+  if(m.conjuge) parts.push(`Cônjuge: ${m.conjuge.nome} (${m.conjuge.nascimento||'sem data'})`);
+  if(m.casamento) parts.push(`Casamento: ${m.casamento}`);
+  (m.filhos||[]).forEach(f => parts.push(`Filho(a): ${f.nome} (${f.nascimento||'sem data'})`));
+  return parts;
+}
+
+function renderMembers(filter){
+  const list = document.getElementById('membersList');
+  const q = (filter||'').trim().toLowerCase();
+  let members = state.members.slice().sort((a,b)=>a.nome.localeCompare(b.nome,'pt-BR'));
+  if(q){
+    members = members.filter(m => {
+      const hay = [m.nome, m.apelido, m.conjuge && m.conjuge.nome, ...(m.filhos||[]).map(f=>f.nome)]
+        .filter(Boolean).join(' ').toLowerCase();
+      return hay.includes(q);
+    });
+  }
+  if(members.length === 0){
+    list.innerHTML = '<div class="card"><small class="hint">Nenhum membro encontrado.</small></div>';
+    return;
+  }
+  list.innerHTML = members.map(m => `
+    <div class="memberCard">
+      <h3><span class="apelido">${escapeHtml(m.apelido||m.nome)}</span> — ${escapeHtml(m.nome)}</h3>
+      <div class="meta">
+        🎂 ${escapeHtml(m.nascimento||'—')} &nbsp;|&nbsp;
+        📞 ${escapeHtml(m.celular||m.telResidencial||m.telComercial||'—')} &nbsp;|&nbsp;
+        ✉️ ${escapeHtml(m.email||'—')}<br>
+        📍 ${escapeHtml(m.endereco||'—')}${m.cep ? ' - CEP ' + escapeHtml(m.cep) : ''}${m.cidade ? ' - ' + escapeHtml(m.cidade) : ''}
+      </div>
+      <div class="famList">
+        ${memberFamilyLine(m).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('') || '<small class="hint">Sem familiares cadastrados</small>'}
+      </div>
+      <div class="memberActions">
+        <button class="btn btn-sm" onclick="openMemberModal('${m.id}')">✎ Editar</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteMember('${m.id}')">✕ Excluir</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderBirthdays(){
+  const events = filterEventsByType(buildEvents());
+  const tomorrow = events.filter(e => e.dias === 1);
+  const today = events.filter(e => e.dias === 0);
+  const headline = document.getElementById('birthdayHeadline');
+  let html = '';
+  if(today.length){
+    html += `<strong>🎉 Hoje!</strong>` + today.map(e => eventRowHtml(e, true)).join('');
+  }
+  if(tomorrow.length){
+    html += `<div style="margin-top:${today.length?'14px':'0'};"><strong>⏰ Amanhã</strong>` + tomorrow.map(e => eventRowHtml(e, true)).join('') + `</div>`;
+  }
+  if(!today.length && !tomorrow.length){
+    html = '<small class="hint">Nenhum aniversário hoje ou amanhã.</small>';
+  }
+  headline.innerHTML = html;
+
+  const upcoming = events.filter(e => e.dias > 1 && e.dias <= 30);
+  document.getElementById('upcomingList').innerHTML = upcoming.length
+    ? upcoming.map(e => eventRowHtml(e, false)).join('')
+    : '<small class="hint">Nada nos próximos 30 dias.</small>';
+
+  const cal = document.getElementById('fullCalendar');
+  let calHtml = '';
+  for(let mo=1; mo<=12; mo++){
+    const monthEvents = events.filter(e => e.month === mo).sort((a,b)=>a.day-b.day);
+    if(!monthEvents.length) continue;
+    calHtml += `<div class="monthBlock"><h4>${MONTH_NAMES[mo-1]}</h4>` +
+      monthEvents.map(e => eventRowHtml(e, false, true)).join('') + `</div>`;
+  }
+  cal.innerHTML = calHtml || '<small class="hint">Nenhum evento cadastrado.</small>';
+}
+
+function eventRowHtml(e, highlight, compact){
+  const dateStr = String(e.day).padStart(2,'0') + '/' + String(e.month).padStart(2,'0');
+  const rel = e.tipo === 'irmao' ? '' : ` <small class="hint">(família de ${escapeHtml(e.memberNome)})</small>`;
+  const diasTxt = compact ? '' : (e.dias===0 ? 'hoje' : e.dias===1 ? 'amanhã' : `em ${e.dias} dias`);
+  return `<div class="eventRow ${highlight?'tomorrow':''}">
+    <div>
+      <span class="badge ${badgeClass(e.tipo)}">${badgeLabel(e.tipo)}</span>
+      <span class="who">${escapeHtml(e.nome)}</span>${rel}
+    </div>
+    <div class="row" style="gap:8px;">
+      <span class="when">${dateStr}${diasTxt?' · '+diasTxt:''}</span>
+      <button class="btn btn-sm" onclick='openMessageModal(${JSON.stringify(e).replace(/'/g,"&apos;")})'>💬 Mensagem</button>
+    </div>
+  </div>`;
+}
+
+function escapeHtml(s){
+  return String(s==null?'':s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ============================================================
+   SESSÕES — render e ações
+   ============================================================ */
+function sessionRowHtml(s){
+  return `<div class="eventRow" style="align-items:flex-start;">
+    <div>
+      <span class="badge sessao">📖 Sessão</span> <span class="who">${escapeHtml(s.titulo||'Sessão Ordinária')}</span> <small class="hint">${escapeHtml(s.horario||'')}</small>
+      <div style="margin-top:4px;font-size:.85em;">${s.assunto ? escapeHtml(s.assunto) : '<small class="hint">Assunto ainda não definido</small>'}</div>
+    </div>
+    <div class="row" style="gap:8px;">
+      <span class="when">${escapeHtml(s.data)}</span>
+      <button class="btn btn-sm" onclick="openSessaoModal('${s.id}')">✎</button>
+      <button class="btn btn-sm btn-danger" onclick="deleteSessao('${s.id}')">✕</button>
+    </div>
+  </div>`;
+}
+function renderSessoesList(){
+  const box = document.getElementById('sessoesList');
+  if(!box) return;
+  const list = (state.sessoes||[]).slice().sort((a,b) => {
+    const da = parseDatePart(a.data), db = parseDatePart(b.data);
+    if(!da || !db) return 0;
+    return new Date(da.year, da.month-1, da.day) - new Date(db.year, db.month-1, db.day);
+  });
+  box.innerHTML = list.length ? list.map(sessionRowHtml).join('') : '<small class="hint">Nenhuma sessão cadastrada.</small>';
+}
+function onGenerateSessions(){
+  const start = document.getElementById('sessRangeStart').value.trim();
+  const end = document.getElementById('sessRangeEnd').value.trim();
+  const horario = document.getElementById('sessRangeHorario').value.trim() || '20:00-22:00';
+  const dates = generateThursdays(start, end);
+  if(!dates.length){ showToast('Informe datas válidas no formato DD/MM/AAAA (início não pode ser depois do fim).', 'error'); return; }
+  const added = addSessoes(dates, horario, 'Sessão Ordinária');
+  saveData();
+  showToast(added ? `${added} sessão(ões) adicionada(s).` : 'Todas as sessões desse intervalo já estavam cadastradas.');
+}
+let editingSessaoId = null;
+function openSessaoModal(id){
+  editingSessaoId = id;
+  const s = state.sessoes.find(x => x.id === id);
+  if(!s) return;
+  document.getElementById('modalRoot').innerHTML = `
+    <div class="modalBg" onclick="if(event.target===this) closeModal()">
+      <div class="modal">
+        <h2>Editar Sessão</h2>
+        <label>Data</label><input type="text" id="ss_data" value="${escapeHtml(s.data)}" placeholder="DD/MM/AAAA">
+        <label>Horário</label><input type="text" id="ss_horario" value="${escapeHtml(s.horario||'')}" placeholder="20:00-22:00">
+        <label>Título</label><input type="text" id="ss_titulo" value="${escapeHtml(s.titulo||'')}" placeholder="Sessão Ordinária">
+        <label>Assunto da sessão</label>
+        <textarea id="ss_assunto" placeholder="Ex: Grau de Aprendiz, leitura de Balaústre, instrução...">${escapeHtml(s.assunto||'')}</textarea>
+        <label>Observações</label><textarea id="ss_obs">${escapeHtml(s.observacoes||'')}</textarea>
+        <div class="row" style="margin-top:16px; justify-content:flex-end;">
+          <button class="btn" onclick="closeModal()">Cancelar</button>
+          <button class="btn btn-primary" onclick="saveSessaoForm()">Salvar</button>
+        </div>
+      </div>
+    </div>`;
+}
+function saveSessaoForm(){
+  const data = document.getElementById('ss_data').value.trim();
+  if(!parseDatePart(data) || !parseDatePart(data).year){
+    showToast('Informe uma data válida no formato DD/MM/AAAA.', 'error');
+    return;
+  }
+  const idx = state.sessoes.findIndex(x => x.id === editingSessaoId);
+  if(idx === -1) return;
+  state.sessoes[idx] = Object.assign({}, state.sessoes[idx], {
+    data,
+    horario: document.getElementById('ss_horario').value.trim(),
+    titulo: document.getElementById('ss_titulo').value.trim() || 'Sessão Ordinária',
+    assunto: document.getElementById('ss_assunto').value.trim(),
+    observacoes: document.getElementById('ss_obs').value.trim()
+  });
+  saveData();
+  closeModal();
+  showToast('Sessão atualizada.');
+}
+function deleteSessao(id){
+  if(!confirm('Excluir esta sessão da agenda?')) return;
+  state.sessoes = state.sessoes.filter(s => s.id !== id);
+  saveData();
+  showToast('Sessão excluída.');
+}
+
+/* ============================================================
+   DATAS ESPECIAIS — render, modal e ações
+   ============================================================ */
+let editingSpecialId = null;
+function specialRowHtml(s){
+  return `<div class="eventRow">
+    <div><span class="badge especial">⭐ Especial</span> <span class="who">${escapeHtml(s.titulo)}</span>${s.observacoes ? ` <small class="hint">(${escapeHtml(s.observacoes)})</small>` : ''}</div>
+    <div class="row" style="gap:8px;">
+      <span class="when">${escapeHtml(s.data)}</span>
+      <button class="btn btn-sm" onclick="openSpecialModal('${s.id}')">✎</button>
+      <button class="btn btn-sm btn-danger" onclick="deleteSpecial('${s.id}')">✕</button>
+    </div>
+  </div>`;
+}
+function renderSpecialList(){
+  const box = document.getElementById('specialList');
+  if(!box) return;
+  const list = (state.datasEspeciais||[]).slice().sort((a,b) => {
+    const da = parseDatePart(a.data), db = parseDatePart(b.data);
+    if(!da || !db) return 0;
+    return (da.month - db.month) || (da.day - db.day);
+  });
+  box.innerHTML = list.length ? list.map(specialRowHtml).join('') : '<small class="hint">Nenhuma data especial cadastrada.</small>';
+}
+function openSpecialModal(id){
+  editingSpecialId = id || null;
+  const s = editingSpecialId ? state.datasEspeciais.find(x=>x.id===editingSpecialId) : {titulo:'', data:'', observacoes:''};
+  document.getElementById('modalRoot').innerHTML = `
+    <div class="modalBg" onclick="if(event.target===this) closeModal()">
+      <div class="modal">
+        <h2>${editingSpecialId ? 'Editar' : 'Nova'} Data Especial</h2>
+        <label>Título</label><input type="text" id="sp_titulo" value="${escapeHtml(s.titulo)}" placeholder="Ex: Fundação da Loja">
+        <label>Data (DD/MM para repetir todo ano, ou DD/MM/AAAA para data única)</label>
+        <input type="text" id="sp_data" value="${escapeHtml(s.data)}" placeholder="12/03 ou 12/03/2027">
+        <label>Observações</label><textarea id="sp_obs">${escapeHtml(s.observacoes||'')}</textarea>
+        <div class="row" style="margin-top:16px; justify-content:flex-end;">
+          <button class="btn" onclick="closeModal()">Cancelar</button>
+          <button class="btn btn-primary" onclick="saveSpecialForm()">Salvar</button>
+        </div>
+      </div>
+    </div>`;
+}
+function saveSpecialForm(){
+  const titulo = document.getElementById('sp_titulo').value.trim();
+  const data = document.getElementById('sp_data').value.trim();
+  if(!titulo || !parseDatePart(data)){ showToast('Preencha o título e uma data válida (DD/MM ou DD/MM/AAAA).', 'error'); return; }
+  const observacoes = document.getElementById('sp_obs').value.trim();
+  if(editingSpecialId){
+    const idx = state.datasEspeciais.findIndex(x=>x.id===editingSpecialId);
+    state.datasEspeciais[idx] = Object.assign({id:editingSpecialId}, {titulo, data, observacoes});
+  } else {
+    state.datasEspeciais.push({id:uid(), titulo, data, observacoes});
+  }
+  saveData();
+  closeModal();
+  showToast('Data especial salva.');
+}
+function deleteSpecial(id){
+  if(!confirm('Excluir esta data especial?')) return;
+  state.datasEspeciais = state.datasEspeciais.filter(x=>x.id!==id);
+  saveData();
+  showToast('Data especial excluída.');
+}
+
+/* ============================================================
+   MODAIS
+   ============================================================ */
+function closeModal(){ document.getElementById('modalRoot').innerHTML = ''; }
+
+function openMemberModal(id){
+  editingId = id || null;
+  const m = editingId ? state.members.find(x=>x.id===editingId) : {
+    nome:'', apelido:'', nascimento:'', endereco:'', cep:'', cidade:'',
+    telResidencial:'', telComercial:'', celular:'', email:'', conjuge:null, casamento:'', filhos:[], observacoes:''
+  };
+  const filhosHtml = (m.filhos||[]).map((f,i) => filhoRowHtml(f, i)).join('');
+  document.getElementById('modalRoot').innerHTML = `
+    <div class="modalBg" onclick="if(event.target===this) closeModal()">
+      <div class="modal">
+        <h2>${editingId ? 'Editar Membro' : 'Novo Membro'}</h2>
+        <label>Nome completo</label><input type="text" id="f_nome" value="${escapeHtml(m.nome)}">
+        <label>Apelido / nome de tratamento</label><input type="text" id="f_apelido" value="${escapeHtml(m.apelido)}">
+        <label>Data de nascimento (DD/MM ou DD/MM/AAAA)</label><input type="text" id="f_nascimento" value="${escapeHtml(m.nascimento)}" placeholder="Ex: 15/03">
+        <label>Endereço</label><input type="text" id="f_endereco" value="${escapeHtml(m.endereco)}">
+        <div class="row"><div class="grow"><label>CEP</label><input type="text" id="f_cep" value="${escapeHtml(m.cep)}"></div>
+        <div class="grow"><label>Cidade</label><input type="text" id="f_cidade" value="${escapeHtml(m.cidade)}"></div></div>
+        <div class="row"><div class="grow"><label>Telefone residencial</label><input type="text" id="f_telResidencial" value="${escapeHtml(m.telResidencial)}"></div>
+        <div class="grow"><label>Telefone comercial</label><input type="text" id="f_telComercial" value="${escapeHtml(m.telComercial)}"></div></div>
+        <div class="row"><div class="grow"><label>Celular</label><input type="text" id="f_celular" value="${escapeHtml(m.celular)}"></div>
+        <div class="grow"><label>E-mail</label><input type="email" id="f_email" value="${escapeHtml(m.email)}"></div></div>
+
+        <hr style="border-color:var(--border);margin:16px 0;">
+        <strong>Cônjuge</strong>
+        <div class="row"><div class="grow"><label>Nome do(a) cônjuge</label><input type="text" id="f_conjugeNome" value="${escapeHtml(m.conjuge?m.conjuge.nome:'')}"></div>
+        <div class="grow"><label>Nascimento do(a) cônjuge</label><input type="text" id="f_conjugeNasc" value="${escapeHtml(m.conjuge?m.conjuge.nascimento:'')}" placeholder="DD/MM"></div></div>
+        <label>Data de casamento</label><input type="text" id="f_casamento" value="${escapeHtml(m.casamento||'')}" placeholder="DD/MM">
+
+        <hr style="border-color:var(--border);margin:16px 0;">
+        <strong>Filhos(as)</strong>
+        <div id="filhosContainer">${filhosHtml}</div>
+        <button class="btn btn-sm" type="button" onclick="addFilhoRow()">+ Adicionar filho(a)</button>
+
+        <label>Observações</label><textarea id="f_observacoes">${escapeHtml(m.observacoes||'')}</textarea>
+
+        <div class="row" style="margin-top:16px; justify-content:flex-end;">
+          <button class="btn" onclick="closeModal()">Cancelar</button>
+          <button class="btn btn-primary" onclick="saveMemberForm()">Salvar</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+function filhoRowHtml(f, i){
+  return `<div class="filhoRow" data-idx="${i}">
+    <input type="text" class="grow filhoNome" placeholder="Nome" value="${escapeHtml(f.nome)}">
+    <input type="text" style="max-width:110px;" class="filhoNasc" placeholder="DD/MM" value="${escapeHtml(f.nascimento)}">
+    <button class="btn btn-sm btn-danger" type="button" onclick="this.parentElement.remove()">✕</button>
+  </div>`;
+}
+function addFilhoRow(){
+  const c = document.getElementById('filhosContainer');
+  const div = document.createElement('div');
+  div.innerHTML = filhoRowHtml({nome:'',nascimento:''}, c.children.length);
+  c.appendChild(div.firstElementChild);
+}
+
+function saveMemberForm(){
+  const nome = document.getElementById('f_nome').value.trim();
+  if(!nome){ showToast('Informe o nome do membro.', 'error'); return; }
+  const conjugeNome = document.getElementById('f_conjugeNome').value.trim();
+  const filhos = Array.from(document.querySelectorAll('#filhosContainer .filhoRow')).map(row => ({
+    nome: row.querySelector('.filhoNome').value.trim(),
+    nascimento: row.querySelector('.filhoNasc').value.trim()
+  })).filter(f => f.nome);
+
+  const data = {
+    nome,
+    apelido: document.getElementById('f_apelido').value.trim(),
+    nascimento: document.getElementById('f_nascimento').value.trim(),
+    endereco: document.getElementById('f_endereco').value.trim(),
+    cep: document.getElementById('f_cep').value.trim(),
+    cidade: document.getElementById('f_cidade').value.trim(),
+    telResidencial: document.getElementById('f_telResidencial').value.trim(),
+    telComercial: document.getElementById('f_telComercial').value.trim(),
+    celular: document.getElementById('f_celular').value.trim(),
+    email: document.getElementById('f_email').value.trim(),
+    conjuge: conjugeNome ? { nome: conjugeNome, nascimento: document.getElementById('f_conjugeNasc').value.trim() } : null,
+    casamento: document.getElementById('f_casamento').value.trim(),
+    filhos,
+    observacoes: document.getElementById('f_observacoes').value.trim()
+  };
+
+  if(editingId){
+    const idx = state.members.findIndex(x=>x.id===editingId);
+    state.members[idx] = Object.assign({id:editingId}, data);
+  } else {
+    state.members.push(Object.assign({id:uid()}, data));
+  }
+  saveData();
+  closeModal();
+  showToast('Membro salvo com sucesso.');
+}
+
+function deleteMember(id){
+  const m = state.members.find(x=>x.id===id);
+  if(!m) return;
+  if(!confirm(`Excluir "${m.nome}" e seus familiares cadastrados?`)) return;
+  state.members = state.members.filter(x=>x.id!==id);
+  saveData();
+  showToast('Membro excluído.');
+}
+
+function openMessageModal(ev){
+  const texto = buildMessage(ev);
+  const link = whatsappLink(ev.celular, texto);
+  document.getElementById('modalRoot').innerHTML = `
+    <div class="modalBg" onclick="if(event.target===this) closeModal()">
+      <div class="modal">
+        <h2>💬 Mensagem para ${escapeHtml(ev.nome)}</h2>
+        <small class="hint">Contato de referência: ${escapeHtml(ev.memberNome)} ${ev.celular ? '('+escapeHtml(ev.celular)+')' : '(sem celular cadastrado)'}</small>
+        <label>Rascunho</label>
+        <textarea id="msgText" style="min-height:120px;">${escapeHtml(texto)}</textarea>
+        <div class="row" style="margin-top:14px; justify-content:flex-end;">
+          <button class="btn" onclick="closeModal()">Fechar</button>
+          <button class="btn" onclick="copyMessage()">📋 Copiar</button>
+          ${link ? `<a class="btn btn-primary" href="${link}" target="_blank" rel="noopener">✅ Enviar no WhatsApp</a>` : ''}
+        </div>
+      </div>
+    </div>
+  `;
+}
+function copyMessage(){
+  const ta = document.getElementById('msgText');
+  ta.select();
+  navigator.clipboard && navigator.clipboard.writeText(ta.value);
+  showToast('Mensagem copiada.');
+}
+</script>
+<script>
+/* ============================================================
+   AUTENTICAÇÃO LOCAL (senha)
+   ============================================================ */
+async function initAuth(){
+  const hasHash = !!localStorage.getItem(K.authHash);
+  const sub = document.getElementById('lockSub');
+  sub.textContent = hasHash ? 'A∴R∴L∴S∴ Acácia de Sousas Nº 724' : 'Primeiro uso: crie uma senha de acesso';
+
+  if(sessionStorage.getItem(K.unlocked) === '1' && hasHash){
+    unlockApp();
+    return;
+  }
+  document.getElementById('lockBtn').onclick = handleLockSubmit;
+  document.getElementById('lockInput').addEventListener('keydown', e => { if(e.key==='Enter') handleLockSubmit(); });
+}
+
+async function handleLockSubmit(){
+  const val = document.getElementById('lockInput').value;
+  const errEl = document.getElementById('lockErr');
+  errEl.textContent = '';
+  if(!val){ errEl.textContent = 'Digite uma senha.'; return; }
+  const hasHash = !!localStorage.getItem(K.authHash);
+  if(!hasHash){
+    if(val.length < 4){ errEl.textContent = 'Use pelo menos 4 caracteres.'; return; }
+    localStorage.setItem(K.authHash, await sha256Hex(val));
+    sessionStorage.setItem(K.unlocked, '1');
+    unlockApp();
+    return;
+  }
+  const hash = await sha256Hex(val);
+  if(hash === localStorage.getItem(K.authHash)){
+    sessionStorage.setItem(K.unlocked, '1');
+    unlockApp();
+  } else {
+    errEl.textContent = 'Senha incorreta.';
+  }
+}
+
+function unlockApp(){
+  document.getElementById('lockScreen').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  document.getElementById('lockInput').value = '';
+  loadData();
+  renderAll();
+  initCloudFromSavedConfig();
+}
+
+function lockNow(){
+  sessionStorage.removeItem(K.unlocked);
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('lockScreen').classList.remove('hidden');
+  document.getElementById('lockErr').textContent = '';
+  initAuth();
+}
+
+async function changePassword(){
+  const p1 = document.getElementById('newPasswordInput').value;
+  const p2 = document.getElementById('confirmPasswordInput').value;
+  if(p1.length < 4){ showToast('Use pelo menos 4 caracteres.', 'error'); return; }
+  if(p1 !== p2){ showToast('As senhas não coincidem.', 'error'); return; }
+  localStorage.setItem(K.authHash, await sha256Hex(p1));
+  document.getElementById('newPasswordInput').value = '';
+  document.getElementById('confirmPasswordInput').value = '';
+  showToast('Senha atualizada.');
+}
+
+/* ============================================================
+   TEMA
+   ============================================================ */
+function applyTheme(theme){
+  document.documentElement.setAttribute('data-theme', theme);
+  document.getElementById('themeDarkOpt').classList.toggle('active', theme==='dark');
+  document.getElementById('themeLightOpt').classList.toggle('active', theme==='light');
+  localStorage.setItem(K.theme, theme);
+  applyCustomColors();
+}
+
+/* ============================================================
+   CORES PERSONALIZADAS
+   ============================================================ */
+const CUSTOM_COLORS_KEY = 'acacia724CustomColors';
+const COLOR_VARS = { accent:'--accent', bg:'--bg', card:'--bg-card', inputBg:'--input-bg', inputText:'--input-text', text:'--text' };
+const THEME_DEFAULTS = {
+  dark:  { accent:'#d4af37', bg:'#0f1b2d', card:'#16273f', inputBg:'#1c2f4a', inputText:'#e8eef7', text:'#e8eef7' },
+  light: { accent:'#a8862a', bg:'#f4f6fa', card:'#ffffff', inputBg:'#eef1f7', inputText:'#182437', text:'#182437' }
+};
+const COLOR_PALETTES = [
+  { name:'Dourado Clássico', colors:{accent:'#d4af37', bg:'#0f1b2d', card:'#16273f', inputBg:'#1c2f4a', inputText:'#e8eef7', text:'#e8eef7'} },
+  { name:'Claro Elegante',   colors:{accent:'#a8862a', bg:'#f4f6fa', card:'#ffffff', inputBg:'#eef1f7', inputText:'#182437', text:'#182437'} },
+  { name:'Vinho & Ouro',     colors:{accent:'#d4af37', bg:'#241016', card:'#3a1a22', inputBg:'#33161d', inputText:'#f3e6e6', text:'#f3e6e6'} },
+  { name:'Verde Esmeralda',  colors:{accent:'#b8974a', bg:'#0e2118', card:'#163a26', inputBg:'#123222', inputText:'#eaf3ec', text:'#eaf3ec'} },
+  { name:'Azul Royal',       colors:{accent:'#f2c14e', bg:'#0b1c3a', card:'#12294f', inputBg:'#16305c', inputText:'#eaf0ff', text:'#eaf0ff'} },
+  { name:'Grafite Minimal',  colors:{accent:'#e0a53a', bg:'#1b1b1e', card:'#262629', inputBg:'#2c2c30', inputText:'#f0f0f0', text:'#f0f0f0'} }
+];
+function getCustomColors(){
+  try{ return JSON.parse(localStorage.getItem(CUSTOM_COLORS_KEY) || '{}'); }catch(e){ return {}; }
+}
+function applyPalette(colors){
+  localStorage.setItem(CUSTOM_COLORS_KEY, JSON.stringify(colors));
+  applyCustomColors();
+  renderPaletteGrid();
+  showToast('Paleta aplicada.');
+}
+function samePalette(a,b){
+  return Object.keys(COLOR_VARS).every(k => (a[k]||'').toLowerCase() === (b[k]||'').toLowerCase());
+}
+function renderPaletteGrid(){
+  const grid = document.getElementById('paletteGrid');
+  if(!grid) return;
+  const current = getCustomColors();
+  grid.innerHTML = COLOR_PALETTES.map((p, i) => `
+    <div class="paletteCard ${samePalette(current, p.colors) ? 'activePalette' : ''}" data-idx="${i}">
+      <div class="paletteDots">
+        <span style="background:${p.colors.bg}"></span>
+        <span style="background:${p.colors.card}"></span>
+        <span style="background:${p.colors.accent}"></span>
+      </div>
+      <div class="paletteName">${escapeHtml(p.name)}</div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.paletteCard').forEach(card => {
+    card.onclick = () => applyPalette(COLOR_PALETTES[parseInt(card.dataset.idx,10)].colors);
+  });
+}
+function colorInputId(key){ return 'color' + key.charAt(0).toUpperCase() + key.slice(1); }
+function applyCustomColors(){
+  const theme = localStorage.getItem(K.theme) || 'dark';
+  const defaults = THEME_DEFAULTS[theme] || THEME_DEFAULTS.dark;
+  const custom = getCustomColors();
+  Object.keys(COLOR_VARS).forEach(key => {
+    const val = custom[key] || defaults[key];
+    document.documentElement.style.setProperty(COLOR_VARS[key], val);
+    const input = document.getElementById(colorInputId(key));
+    if(input) input.value = val;
+  });
+}
+function initCustomColors(){
+  Object.keys(COLOR_VARS).forEach(key => {
+    const input = document.getElementById(colorInputId(key));
+    if(!input) return;
+    input.addEventListener('input', () => {
+      const custom = getCustomColors();
+      custom[key] = input.value;
+      localStorage.setItem(CUSTOM_COLORS_KEY, JSON.stringify(custom));
+      document.documentElement.style.setProperty(COLOR_VARS[key], input.value);
+      renderPaletteGrid();
+    });
+  });
+  const resetBtn = document.getElementById('resetColorsBtn');
+  if(resetBtn) resetBtn.onclick = () => {
+    localStorage.removeItem(CUSTOM_COLORS_KEY);
+    applyCustomColors();
+    renderPaletteGrid();
+    showToast('Cores restauradas para o padrão do tema.');
+  };
+  applyCustomColors();
+  renderPaletteGrid();
+}
+function initTheme(){
+  applyTheme(localStorage.getItem(K.theme) || 'dark');
+  document.getElementById('themeDarkOpt').onclick = () => applyTheme('dark');
+  document.getElementById('themeLightOpt').onclick = () => applyTheme('light');
+  initCustomColors();
+}
+
+/* ============================================================
+   ABAS
+   ============================================================ */
+function initTabs(){
+  document.querySelectorAll('.tabBtn').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('.tabBtn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tabPanel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+    };
+  });
+}
+
+/* ============================================================
+   IMPORTAR / EXPORTAR
+   ============================================================ */
+function exportJson(){
+  const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'agenda-loja-backup-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+}
+function importJson(file){
+  const reader = new FileReader();
+  reader.onload = () => {
+    try{
+      const parsed = JSON.parse(reader.result);
+      if(!parsed.members) throw new Error('formato inválido');
+      state = parsed;
+      saveData();
+      showToast('Backup importado com sucesso.');
+    }catch(e){
+      showToast('Arquivo inválido.', 'error');
+    }
+  };
+  reader.readAsText(file);
+}
+
+/* ============================================================
+   NUVEM (Firebase Firestore) — modelo "código compartilhado"
+   ============================================================ */
+function initCloudFromSavedConfig(){
+  const saved = localStorage.getItem(K.fbConfig);
+  document.getElementById('firebaseConfigInput').value = saved || '';
+  if(saved){
+    try{ setupFirebase(JSON.parse(saved)); }catch(e){ /* config inválida, ignora */ }
+  }
+  renderCloudAuthArea();
+}
+
+function setupFirebase(config){
+  try{
+    if(!fbApp){ fbApp = firebase.initializeApp(config); }
+    fbAuth = firebase.auth();
+    fbDb = firebase.firestore();
+    fbAuth.onAuthStateChanged(user => renderCloudAuthArea(user));
+  }catch(e){
+    showToast('Configuração do Firebase inválida.', 'error');
+  }
+}
+
+function saveFirebaseConfig(){
+  const raw = document.getElementById('firebaseConfigInput').value.trim();
+  if(!raw){ showToast('Cole a configuração do Firebase.', 'error'); return; }
+  try{
+    const config = JSON.parse(raw);
+    localStorage.setItem(K.fbConfig, raw);
+    setupFirebase(config);
+    showToast('Configuração salva.');
+  }catch(e){
+    showToast('JSON inválido.', 'error');
+  }
+}
+
+function renderCloudAuthArea(user){
+  const area = document.getElementById('cloudAuthArea');
+  if(!fbAuth){
+    area.innerHTML = '<small class="hint">Salve a configuração do Firebase acima para habilitar login e sincronização.</small>';
+    return;
+  }
+  const current = user || (fbAuth.currentUser);
+  if(!current){
+    area.innerHTML = `
+      <label>E-mail</label><input type="email" id="cloudEmail">
+      <label>Senha</label><input type="password" id="cloudPassword">
+      <div class="row" style="margin-top:8px;">
+        <button class="btn" onclick="cloudLogin()">Entrar</button>
+        <button class="btn" onclick="cloudSignup()">Criar conta</button>
+      </div>`;
+    return;
+  }
+  const code = localStorage.getItem(K.syncCode);
+  area.innerHTML = `
+    <small class="hint">Conectado como ${escapeHtml(current.email)}</small>
+    <div class="row" style="margin-top:8px;">
+      <button class="btn" onclick="cloudLogout()">Sair</button>
+      ${code ? '' : '<button class="btn btn-primary" onclick="generateSyncCode()">Gerar código de sincronização</button>'}
+    </div>
+    ${code ? `<div style="margin-top:10px;"><label>Código de sincronização (compartilhe entre dispositivos)</label><input type="text" value="${escapeHtml(code)}" readonly></div>` : ''}
+    <div style="margin-top:10px;"><label>Já tem um código? Cole aqui para sincronizar este dispositivo</label>
+      <div class="row"><input type="text" id="joinCodeInput" class="grow" placeholder="Cole o código aqui">
+      <button class="btn" onclick="joinSyncCode()">Sincronizar</button></div>
+    </div>`;
+}
+
+async function cloudLogin(){
+  const email = document.getElementById('cloudEmail').value.trim();
+  const pass = document.getElementById('cloudPassword').value;
+  try{ await fbAuth.signInWithEmailAndPassword(email, pass); showToast('Login realizado.'); startCloudListenerIfCode(); }
+  catch(e){ showToast('Falha no login: ' + e.message, 'error'); }
+}
+async function cloudSignup(){
+  const email = document.getElementById('cloudEmail').value.trim();
+  const pass = document.getElementById('cloudPassword').value;
+  try{ await fbAuth.createUserWithEmailAndPassword(email, pass); showToast('Conta criada.'); }
+  catch(e){ showToast('Falha ao criar conta: ' + e.message, 'error'); }
+}
+function cloudLogout(){
+  fbAuth.signOut();
+  if(cloudUnsub){ cloudUnsub(); cloudUnsub = null; }
+  renderCloudAuthArea();
+}
+async function generateSyncCode(){
+  const code = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())) + '-' + Math.random().toString(36).slice(2,10);
+  localStorage.setItem(K.syncCode, code);
+  await fbDb.collection('syncData').doc(code).set({ payload: JSON.stringify(state), _writerId: WRITER_ID, _ts: Date.now() });
+  renderCloudAuthArea();
+  startCloudListenerIfCode();
+  showToast('Código gerado. Copie e use nos outros dispositivos.');
+}
+function joinSyncCode(){
+  const code = document.getElementById('joinCodeInput').value.trim();
+  if(!code){ return; }
+  localStorage.setItem(K.syncCode, code);
+  startCloudListenerIfCode();
+  renderCloudAuthArea();
+  showToast('Sincronização ativada com o código informado.');
+}
+function startCloudListenerIfCode(){
+  const code = localStorage.getItem(K.syncCode);
+  if(!code || !fbDb || !fbAuth.currentUser) return;
+  if(cloudUnsub) cloudUnsub();
+  cloudUnsub = fbDb.collection('syncData').doc(code).onSnapshot(doc => {
+    const data = doc.data();
+    if(!data || data._writerId === WRITER_ID) return;
+    try{
+      const parsed = JSON.parse(data.payload);
+      state = parsed;
+      saveData({skipCloud:true});
+      showToast('Dados atualizados pela nuvem.');
+    }catch(e){}
+  });
+}
+function scheduleCloudPush(){
+  const code = localStorage.getItem(K.syncCode);
+  if(!code || !fbDb || !fbAuth || !fbAuth.currentUser) return;
+  clearTimeout(pushTimer);
+  pushTimer = setTimeout(() => {
+    fbDb.collection('syncData').doc(code).set({ payload: JSON.stringify(state), _writerId: WRITER_ID, _ts: Date.now() });
+  }, 800);
+}
+
+/* ============================================================
+   INICIALIZAÇÃO
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  initTabs();
+  initAuth();
+  initCalendar();
+  initEventFilters();
+
+  document.getElementById('lockNowBtn').onclick = lockNow;
+  document.getElementById('addMemberBtn').onclick = () => openMemberModal(null);
+  document.getElementById('searchMembers').addEventListener('input', e => renderMembers(e.target.value));
+  document.getElementById('exportBtn').onclick = exportJson;
+  document.getElementById('importBtn').onclick = () => document.getElementById('importFile').click();
+  document.getElementById('importFile').addEventListener('change', e => { if(e.target.files[0]) importJson(e.target.files[0]); });
+  document.getElementById('saveFirebaseConfigBtn').onclick = saveFirebaseConfig;
+  document.getElementById('changePasswordBtn').onclick = changePassword;
+  document.getElementById('generateSessionsBtn').onclick = onGenerateSessions;
+  document.getElementById('addSpecialBtn').onclick = () => openSpecialModal(null);
+});
+</script>
+</body>
+</html>
