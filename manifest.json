@@ -1,0 +1,17 @@
+{
+  "name": "Acácia724",
+  "short_name": "Acácia724",
+  "description": "Agenda da A∴R∴L∴S∴ Acácia de Sousas Nº 724",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0f1b2d",
+  "theme_color": "#0f1b2d",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Acácia724 — Agenda A∴R∴L∴S∴ Acácia de Sousas Nº 724</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f1b2d">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Acácia724">
 <style>
 :root{
   --bg:#0f1b2d; --bg-card:#16273f; --bg-elev:#1c2f4a; --border:#2a3f5f;
@@ -1385,6 +1392,13 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('generateSessionsBtn').onclick = onGenerateSessions;
   document.getElementById('addSpecialBtn').onclick = () => openSpecialModal(null);
 });
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
 </script>
 </body>
 </html>
