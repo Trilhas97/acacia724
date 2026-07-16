@@ -36,9 +36,12 @@ button,input,select,textarea{font-family:inherit;}
 .lockBox{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:32px;width:100%;max-width:380px;box-shadow:var(--shadow);text-align:center;}
 .lockBox h1{font-size:1.3em;margin:0 0 4px;color:var(--accent);}
 .lockBox p{color:var(--text-dim);font-size:.9em;margin:0 0 20px;}
+.lockBox label{text-align:left;}
 .lockBox input{width:100%;padding:12px;border-radius:8px;border:1px solid var(--border);background:var(--bg-elev);color:var(--text);margin-bottom:12px;font-size:1em;}
-.lockBox button{width:100%;padding:12px;border-radius:8px;border:none;background:var(--accent);color:#1a1408;font-weight:bold;cursor:pointer;font-size:1em;}
+.lockBox button{width:100%;padding:12px;border-radius:8px;border:none;background:var(--accent);color:#1a1408;font-weight:bold;cursor:pointer;font-size:1em;margin-bottom:10px;}
 .lockBox button:hover{background:var(--accent-dim);}
+.lockBox button.secondary{background:var(--bg-elev);color:var(--text);border:1px solid var(--border);}
+.lockBox button.secondary:hover{border-color:var(--accent);background:var(--bg-elev);}
 .lockErr{color:var(--danger);font-size:.85em;min-height:18px;margin-bottom:8px;}
 
 /* ---------- app shell ---------- */
@@ -46,11 +49,22 @@ button,input,select,textarea{font-family:inherit;}
 header.appHead{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 4px;border-bottom:1px solid var(--border);margin-bottom:14px;flex-wrap:wrap;}
 header.appHead h1{font-size:1.15em;margin:0;color:var(--accent);}
 header.appHead .sub{color:var(--text-dim);font-size:.8em;}
-.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
 .tabBtn{padding:9px 14px;border-radius:8px;border:1px solid var(--border);background:var(--bg-card);color:var(--text-dim);cursor:pointer;font-size:.92em;}
 .tabBtn.active{background:var(--accent);color:#1a1408;border-color:var(--accent);font-weight:bold;}
 .tabPanel{display:none;}
 .tabPanel.active{display:block;}
+
+/* ---------- menu lateral ---------- */
+.menuToggleBtn{font-size:1.2em;padding:8px 12px;}
+.sideNav{position:fixed;top:0;left:0;bottom:0;width:240px;max-width:80vw;background:var(--bg-card);border-right:1px solid var(--border);padding:18px 14px;display:flex;flex-direction:column;gap:6px;transform:translateX(-100%);transition:transform .25s ease;z-index:70;overflow-y:auto;box-shadow:var(--shadow);}
+.sideNav.open{transform:translateX(0);}
+.sideNav .navTitle{color:var(--accent);font-weight:bold;margin:0 0 10px;font-size:1.05em;}
+.sideNav .tabBtn{width:100%;text-align:left;}
+.sideNavOverlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:65;display:none;}
+.sideNavOverlay.open{display:block;}
+.sideDivider{border-top:1px solid var(--border);margin:10px 0;}
+.tabBtn.adminOnly{display:none;}
+.tabBtn.adminOnly.show{display:block;}
 
 .card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow);}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
@@ -109,14 +123,12 @@ label{display:block;font-size:.78em;color:var(--text-dim);margin:8px 0 4px;}
 .calDay.otherMonth{opacity:.35;}
 .calDay.today{border-color:var(--accent);font-weight:bold;}
 .calDay.hasEvent{background:rgba(212,175,55,.16);border-color:var(--accent-dim);}
-.calDay .dotsWrap{position:absolute;bottom:3px;left:50%;transform:translateX(-50%);display:flex;gap:2px;}
-.calDay .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);}
-.calDay .dot.dotSession{background:var(--blue);}
-.calDay .dot.dotSpecial{background:#8a5fc4;}
+.calDay .iconWrap{position:absolute;top:1px;right:1px;display:flex;gap:1px;font-size:.62em;line-height:1;filter:drop-shadow(0 0 1px rgba(0,0,0,.6));}
 .calDay.hasSession{border-color:var(--blue);}
 .calDay.hasSpecial{border-color:#8a5fc4;}
 .calDay.selected{outline:2px solid var(--accent);}
-#calDayEvents{margin-top:12px;}
+.calDay.pulse{animation:calPulse 1.7s infinite;}
+@keyframes calPulse{0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,.55);}50%{box-shadow:0 0 0 5px rgba(212,175,55,0);}}
 .badge.especial{background:#8a5fc4;}
 .badge.sessao{background:var(--blue);}
 .scrollList{max-height:340px;overflow-y:auto;}
@@ -141,32 +153,40 @@ small.hint{color:var(--text-dim);}
 <div id="lockScreen">
   <div class="lockBox">
     <h1>🔷 Acácia724</h1>
-    <p id="lockSub">A∴R∴L∴S∴ Acácia de Sousas Nº 724</p>
+    <p id="lockSub">A∴R∴L∴S∴ Acácia de Sousas Nº 724 — entre com seu cadastro</p>
     <div id="lockErr" class="lockErr"></div>
-    <input type="password" id="lockInput" placeholder="Senha de acesso">
+    <label>E-mail</label>
+    <input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="username">
+    <label>Senha</label>
+    <input type="password" id="loginPassword" placeholder="Senha" autocomplete="current-password">
     <button id="lockBtn" class="btn-primary">Entrar</button>
+    <button id="signupBtn" class="secondary">Criar cadastro (primeiro acesso)</button>
   </div>
 </div>
 
 <div id="app" class="hidden">
   <header class="appHead">
+    <button class="btn btn-sm menuToggleBtn" id="menuToggleBtn">☰</button>
     <div>
       <h1>🔷 Acácia724</h1>
-      <div class="sub">Membros, familiares e aniversários</div>
+      <div class="sub" id="userSub">Membros, familiares e aniversários</div>
     </div>
-    <button class="btn btn-sm" id="lockNowBtn">🔒 Bloquear</button>
+    <button class="btn btn-sm" id="logoutBtn">🚪 Sair</button>
   </header>
 
-  <div class="tabs">
+  <div class="sideNavOverlay" id="sideNavOverlay"></div>
+  <nav class="sideNav" id="sideNav">
+    <div class="navTitle">🔷 Acácia724</div>
     <button class="tabBtn active" data-tab="calendario">🗓️ Calendário</button>
     <button class="tabBtn" data-tab="sessoes">📖 Sessões</button>
     <button class="tabBtn" data-tab="especiais">⭐ Datas Especiais</button>
     <button class="tabBtn" data-tab="membros">📋 Membros</button>
     <button class="tabBtn" data-tab="aniversarios">🎂 Aniversários</button>
-    <button class="tabBtn" data-tab="nuvem">☁️ Nuvem</button>
-    <button class="tabBtn" data-tab="aparencia">🎨 Aparência</button>
+    <div class="sideDivider" id="adminDivider"></div>
+    <button class="tabBtn adminOnly" data-tab="nuvem">☁️ Nuvem</button>
+    <button class="tabBtn adminOnly" data-tab="aparencia">🎨 Aparência</button>
     <button class="tabBtn" data-tab="seguranca">🔒 Segurança</button>
-  </div>
+  </nav>
 
   <!-- CALENDARIO -->
   <div class="tabPanel active" id="tab-calendario">
@@ -189,7 +209,6 @@ small.hint{color:var(--text-dim);}
         <button class="calNavBtn" id="calNextBtn">›</button>
       </div>
       <div class="calGrid" id="calGrid"></div>
-      <div id="calDayEvents"></div>
     </div>
   </div>
 
@@ -275,14 +294,9 @@ small.hint{color:var(--text-dim);}
   <!-- NUVEM -->
   <div class="tabPanel" id="tab-nuvem">
     <div class="card">
-      <strong>Sincronização em nuvem (Firebase)</strong>
-      <p><small class="hint">Cole aqui a configuração (firebaseConfig) do seu projeto Firebase. Os dados ficam salvos localmente neste navegador mesmo sem nuvem; a nuvem serve para sincronizar entre dispositivos.</small></p>
-      <label>Configuração do Firebase (JSON)</label>
-      <textarea id="firebaseConfigInput" placeholder='{"apiKey": "...", "projectId": "...", ...}'></textarea>
-      <div class="row" style="margin-top:8px;">
-        <button class="btn" id="saveFirebaseConfigBtn">Salvar configuração</button>
-      </div>
-      <div id="cloudAuthArea" style="margin-top:14px;"></div>
+      <strong>☁️ Sincronização em nuvem (Firebase)</strong>
+      <p><small class="hint">A configuração do Firebase já vem embutida no app. O código abaixo conecta os dispositivos de todos os Irmãos à mesma agenda — é gerado automaticamente e não precisa ser alterado.</small></p>
+      <div id="cloudStatusArea"></div>
     </div>
   </div>
 
@@ -320,14 +334,18 @@ small.hint{color:var(--text-dim);}
   <!-- SEGURANCA -->
   <div class="tabPanel" id="tab-seguranca">
     <div class="card">
-      <strong>Senha local</strong>
-      <p><small class="hint">Protege a agenda contra acesso não autorizado neste dispositivo.</small></p>
+      <strong>🔒 Minha conta</strong>
+      <p><small class="hint">Login usado para acessar e sincronizar a agenda entre dispositivos.</small></p>
+      <div id="accountInfoArea"></div>
+    </div>
+    <div class="card">
+      <strong>Alterar senha</strong>
       <label>Nova senha</label>
-      <input type="password" id="newPasswordInput">
+      <input type="password" id="newPasswordInput" autocomplete="new-password">
       <label>Confirmar nova senha</label>
-      <input type="password" id="confirmPasswordInput">
+      <input type="password" id="confirmPasswordInput" autocomplete="new-password">
       <div class="row" style="margin-top:10px;">
-        <button class="btn btn-primary" id="changePasswordBtn">Salvar senha</button>
+        <button class="btn btn-primary" id="changePasswordBtn">Salvar nova senha</button>
       </div>
     </div>
   </div>
@@ -344,6 +362,26 @@ small.hint{color:var(--text-dim);}
    ARLS Acácia de Sousas Nº 724
    ============================================================ */
 const SEED_MEMBERS = []; // dados reais vivem só no Firestore/backup importado — nada de PII no código-fonte publicado
+
+/* Administradores (acesso às abas Nuvem e Aparência) */
+const ADMIN_EMAILS = ['ricardo@trilhas.tur.br'];
+
+/* Configuração pública do Firebase (não é segredo — a proteção real é o Firebase Auth + regras do Firestore) */
+const EMBEDDED_FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDg0W2jOOvWdHbBZUVr3j1C-cdnwuAUrmk",
+  authDomain: "acacia724-41837.firebaseapp.com",
+  projectId: "acacia724-41837",
+  storageBucket: "acacia724-41837.firebasestorage.app",
+  messagingSenderId: "24782341132",
+  appId: "1:24782341132:web:0993b883c6af8b35f11a29"
+};
+
+/* Código fixo do documento compartilhado da Loja no Firestore (protegido por login obrigatório) */
+const EMBEDDED_SYNC_CODE = 'loja724-d7bfad7df1734f2a86e4f7f20a0d4a52';
+
+function isAdminEmail(email){
+  return !!email && ADMIN_EMAILS.includes(String(email).toLowerCase());
+}
 </script>
 <script>
 /* ============================================================
@@ -618,18 +656,21 @@ function renderCalendar(){
     const dayEvents = !c.other ? (eventsByDay[c.day]||[]) : [];
     const daySess = !c.other ? (sessByDay[c.day]||[]) : [];
     const daySpec = !c.other ? (specByDay[c.day]||[]) : [];
+    const hasAny = dayEvents.length || daySess.length || daySpec.length;
     const cls = ['calDay'];
     if(c.other) cls.push('otherMonth');
     if(isToday) cls.push('today');
     if(dayEvents.length) cls.push('hasEvent');
     if(daySess.length) cls.push('hasSession');
     if(daySpec.length) cls.push('hasSpecial');
+    if(isToday && hasAny) cls.push('pulse');
     const titleParts = [...dayEvents.map(e=>e.nome), ...daySess.map(s=>s.titulo), ...daySpec.map(s=>s.titulo)];
-    const dots = [];
-    if(dayEvents.length) dots.push('<span class="dot"></span>');
-    if(daySess.length) dots.push('<span class="dot dotSession"></span>');
-    if(daySpec.length) dots.push('<span class="dot dotSpecial"></span>');
-    html += `<div class="${cls.join(' ')}" data-day="${c.day}" data-other="${c.other}" title="${escapeHtml(titleParts.join(', '))}">${c.day}${dots.length?'<span class="dotsWrap">'+dots.join('')+'</span>':''}</div>`;
+    const icons = [];
+    if(dayEvents.length) icons.push('🎂');
+    if(daySess.length) icons.push('📖');
+    if(daySpec.length) icons.push('⭐');
+    const iconHtml = icons.length ? '<span class="iconWrap">'+icons.map(i=>'<span>'+i+'</span>').join('')+'</span>' : '';
+    html += `<div class="${cls.join(' ')}" data-day="${c.day}" data-other="${c.other}" title="${escapeHtml(titleParts.join(', '))}">${c.day}${iconHtml}</div>`;
   });
   grid.innerHTML = html;
 
@@ -638,23 +679,30 @@ function renderCalendar(){
       if(cell.dataset.other === 'true') return;
       grid.querySelectorAll('.calDay').forEach(c=>c.classList.remove('selected'));
       cell.classList.add('selected');
-      showDayEvents(parseInt(cell.dataset.day,10), m+1, y);
+      openDayModal(parseInt(cell.dataset.day,10), m+1, y);
     };
   });
 }
 
-function showDayEvents(day, month, year){
+function openDayModal(day, month, year){
   const events = filterEventsByType(buildEvents()).filter(e => e.day===day && e.month===month);
   const sess = year ? sessoesForMonth(year, month).filter(s => s.day===day) : [];
   const spec = year ? specialForMonth(year, month).filter(s => s.day===day) : [];
-  const box = document.getElementById('calDayEvents');
-  const dateStr = String(day).padStart(2,'0') + '/' + String(month).padStart(2,'0');
-  let html = `<strong>${dateStr}</strong>`;
-  html += sess.map(s => sessionRowHtml(s)).join('');
-  html += spec.map(s => specialRowHtml(s)).join('');
-  html += events.map(e => eventRowHtml(e, e.dias===1)).join('');
-  if(!sess.length && !spec.length && !events.length) html += `<div><small class="hint">Nada marcado em ${dateStr}.</small></div>`;
-  box.innerHTML = html;
+  const dateStr = String(day).padStart(2,'0') + '/' + String(month).padStart(2,'0') + (year ? '/' + year : '');
+  let body = sess.map(s => sessionRowHtml(s)).join('');
+  body += spec.map(s => specialRowHtml(s)).join('');
+  body += events.map(e => eventRowHtml(e, e.dias===1)).join('');
+  if(!sess.length && !spec.length && !events.length) body = `<small class="hint">Nada marcado em ${escapeHtml(dateStr)}.</small>`;
+  document.getElementById('modalRoot').innerHTML = `
+    <div class="modalBg" onclick="if(event.target===this) closeModal()">
+      <div class="modal">
+        <h2>🗓️ ${escapeHtml(dateStr)}</h2>
+        ${body}
+        <div class="row" style="margin-top:16px; justify-content:flex-end;">
+          <button class="btn" onclick="closeModal()">Fechar</button>
+        </div>
+      </div>
+    </div>`;
 }
 
 function initCalendar(){
@@ -1043,69 +1091,104 @@ function copyMessage(){
 </script>
 <script>
 /* ============================================================
-   AUTENTICAÇÃO LOCAL (senha)
+   AUTENTICAÇÃO (Firebase Auth — e-mail e senha obrigatórios)
    ============================================================ */
-async function initAuth(){
-  const hasHash = !!localStorage.getItem(K.authHash);
-  const sub = document.getElementById('lockSub');
-  sub.textContent = hasHash ? 'A∴R∴L∴S∴ Acácia de Sousas Nº 724' : 'Primeiro uso: crie uma senha de acesso';
-
-  if(sessionStorage.getItem(K.unlocked) === '1' && hasHash){
-    unlockApp();
-    return;
-  }
-  document.getElementById('lockBtn').onclick = handleLockSubmit;
-  document.getElementById('lockInput').addEventListener('keydown', e => { if(e.key==='Enter') handleLockSubmit(); });
+function initAuth(){
+  setupFirebase(EMBEDDED_FIREBASE_CONFIG);
+  document.getElementById('lockBtn').onclick = handleLoginSubmit;
+  document.getElementById('signupBtn').onclick = handleSignupSubmit;
+  document.getElementById('loginPassword').addEventListener('keydown', e => { if(e.key==='Enter') handleLoginSubmit(); });
 }
 
-async function handleLockSubmit(){
-  const val = document.getElementById('lockInput').value;
+async function handleLoginSubmit(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPassword').value;
   const errEl = document.getElementById('lockErr');
   errEl.textContent = '';
-  if(!val){ errEl.textContent = 'Digite uma senha.'; return; }
-  const hasHash = !!localStorage.getItem(K.authHash);
-  if(!hasHash){
-    if(val.length < 4){ errEl.textContent = 'Use pelo menos 4 caracteres.'; return; }
-    localStorage.setItem(K.authHash, await sha256Hex(val));
-    sessionStorage.setItem(K.unlocked, '1');
-    unlockApp();
+  if(!email || !pass){ errEl.textContent = 'Informe e-mail e senha.'; return; }
+  try{
+    await fbAuth.signInWithEmailAndPassword(email, pass);
+  }catch(e){
+    errEl.textContent = 'Não foi possível entrar: ' + (e.message||'verifique e-mail e senha.');
+  }
+}
+
+async function handleSignupSubmit(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('lockErr');
+  errEl.textContent = '';
+  if(!email || pass.length < 6){ errEl.textContent = 'Informe e-mail e uma senha com pelo menos 6 caracteres.'; return; }
+  try{
+    await fbAuth.createUserWithEmailAndPassword(email, pass);
+    showToast('Cadastro criado com sucesso.');
+  }catch(e){
+    errEl.textContent = 'Não foi possível criar o cadastro: ' + (e.message||'');
+  }
+}
+
+function onAuthReady(user){
+  if(!user){
+    document.getElementById('lockScreen').classList.remove('hidden');
+    document.getElementById('app').classList.add('hidden');
     return;
   }
-  const hash = await sha256Hex(val);
-  if(hash === localStorage.getItem(K.authHash)){
-    sessionStorage.setItem(K.unlocked, '1');
-    unlockApp();
-  } else {
-    errEl.textContent = 'Senha incorreta.';
+  document.getElementById('lockScreen').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginPassword').value = '';
+  document.getElementById('userSub').textContent = user.email + (isAdminEmail(user.email) ? ' · Administrador' : '');
+  applyAdminVisibility(user.email);
+  loadData();
+  renderAll();
+  ensureCloudSync();
+  renderAccountInfo();
+  renderCloudStatusArea();
+}
+
+function applyAdminVisibility(email){
+  const admin = isAdminEmail(email);
+  document.querySelectorAll('.adminOnly').forEach(btn => btn.classList.toggle('show', admin));
+  const divider = document.getElementById('adminDivider');
+  if(divider) divider.style.display = admin ? 'block' : 'none';
+  if(!admin){
+    const activeAdminTab = document.querySelector('.tabBtn.adminOnly.active');
+    if(activeAdminTab){
+      const calBtn = document.querySelector('.tabBtn[data-tab="calendario"]');
+      if(calBtn) calBtn.click();
+    }
   }
 }
 
-function unlockApp(){
-  document.getElementById('lockScreen').classList.add('hidden');
-  document.getElementById('app').classList.remove('hidden');
-  document.getElementById('lockInput').value = '';
-  loadData();
-  renderAll();
-  initCloudFromSavedConfig();
+function logoutNow(){
+  if(fbAuth) fbAuth.signOut();
 }
 
-function lockNow(){
-  sessionStorage.removeItem(K.unlocked);
-  document.getElementById('app').classList.add('hidden');
-  document.getElementById('lockScreen').classList.remove('hidden');
-  document.getElementById('lockErr').textContent = '';
-  initAuth();
+function renderAccountInfo(){
+  const box = document.getElementById('accountInfoArea');
+  if(!box) return;
+  const user = fbAuth && fbAuth.currentUser;
+  box.innerHTML = `
+    <small class="hint">Conectado como <strong>${escapeHtml(user?user.email:'—')}</strong>${user && isAdminEmail(user.email) ? ' · Administrador' : ''}</small>
+    <div class="row" style="margin-top:10px;">
+      <button class="btn btn-danger" onclick="logoutNow()">🚪 Sair da conta</button>
+    </div>`;
 }
 
 async function changePassword(){
   const p1 = document.getElementById('newPasswordInput').value;
   const p2 = document.getElementById('confirmPasswordInput').value;
-  if(p1.length < 4){ showToast('Use pelo menos 4 caracteres.', 'error'); return; }
+  if(p1.length < 6){ showToast('Use pelo menos 6 caracteres.', 'error'); return; }
   if(p1 !== p2){ showToast('As senhas não coincidem.', 'error'); return; }
-  localStorage.setItem(K.authHash, await sha256Hex(p1));
-  document.getElementById('newPasswordInput').value = '';
-  document.getElementById('confirmPasswordInput').value = '';
-  showToast('Senha atualizada.');
+  if(!fbAuth || !fbAuth.currentUser){ showToast('Faça login novamente para trocar a senha.', 'error'); return; }
+  try{
+    await fbAuth.currentUser.updatePassword(p1);
+    document.getElementById('newPasswordInput').value = '';
+    document.getElementById('confirmPasswordInput').value = '';
+    showToast('Senha atualizada.');
+  }catch(e){
+    showToast('Não foi possível trocar a senha — talvez seja necessário sair e entrar de novo. (' + (e.message||'') + ')', 'error');
+  }
 }
 
 /* ============================================================
@@ -1217,8 +1300,27 @@ function initTabs(){
       document.querySelectorAll('.tabPanel').forEach(p=>p.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+      closeSideNav();
+      if(btn.dataset.tab === 'nuvem') renderCloudStatusArea();
+      if(btn.dataset.tab === 'seguranca') renderAccountInfo();
     };
   });
+}
+
+/* ---------- menu lateral (sidebar) ---------- */
+function openSideNav(){
+  document.getElementById('sideNav').classList.add('open');
+  document.getElementById('sideNavOverlay').classList.add('open');
+}
+function closeSideNav(){
+  document.getElementById('sideNav').classList.remove('open');
+  document.getElementById('sideNavOverlay').classList.remove('open');
+}
+function initSideNav(){
+  document.getElementById('menuToggleBtn').onclick = () => {
+    document.getElementById('sideNav').classList.contains('open') ? closeSideNav() : openSideNav();
+  };
+  document.getElementById('sideNavOverlay').onclick = closeSideNav;
 }
 
 /* ============================================================
@@ -1248,127 +1350,81 @@ function importJson(file){
 }
 
 /* ============================================================
-   NUVEM (Firebase Firestore) — modelo "código compartilhado"
+   NUVEM (Firebase Firestore) — configuração e código embutidos,
+   todo usuário autenticado sincroniza automaticamente
    ============================================================ */
-function initCloudFromSavedConfig(){
-  const saved = localStorage.getItem(K.fbConfig);
-  document.getElementById('firebaseConfigInput').value = saved || '';
-  if(saved){
-    try{ setupFirebase(JSON.parse(saved)); }catch(e){ /* config inválida, ignora */ }
-  }
-  renderCloudAuthArea();
-}
-
 function setupFirebase(config){
   try{
     if(!fbApp){ fbApp = firebase.initializeApp(config); }
     fbAuth = firebase.auth();
     fbDb = firebase.firestore();
-    fbAuth.onAuthStateChanged(user => renderCloudAuthArea(user));
+    fbAuth.onAuthStateChanged(user => onAuthReady(user));
   }catch(e){
-    showToast('Configuração do Firebase inválida.', 'error');
+    console.error('Firebase init falhou', e);
   }
 }
 
-function saveFirebaseConfig(){
-  const raw = document.getElementById('firebaseConfigInput').value.trim();
-  if(!raw){ showToast('Cole a configuração do Firebase.', 'error'); return; }
+async function ensureCloudSync(){
+  if(!fbDb || !fbAuth || !fbAuth.currentUser) return;
   try{
-    const config = JSON.parse(raw);
-    localStorage.setItem(K.fbConfig, raw);
-    setupFirebase(config);
-    showToast('Configuração salva.');
-  }catch(e){
-    showToast('JSON inválido.', 'error');
-  }
+    const docRef = fbDb.collection('syncData').doc(EMBEDDED_SYNC_CODE);
+    const snap = await docRef.get();
+    if(snap.exists){
+      const data = snap.data();
+      if(data && data.payload){
+        try{
+          state = JSON.parse(data.payload);
+          saveData({skipCloud:true});
+        }catch(e){}
+      }
+    } else if(isAdminEmail(fbAuth.currentUser.email)){
+      await docRef.set({ payload: JSON.stringify(state), _writerId: WRITER_ID, _ts: Date.now() });
+    }
+  }catch(e){ /* offline ou sem permissão — segue só com os dados locais */ }
+  startCloudListener();
 }
 
-function renderCloudAuthArea(user){
-  const area = document.getElementById('cloudAuthArea');
-  if(!fbAuth){
-    area.innerHTML = '<small class="hint">Salve a configuração do Firebase acima para habilitar login e sincronização.</small>';
-    return;
-  }
-  const current = user || (fbAuth.currentUser);
-  if(!current){
-    area.innerHTML = `
-      <label>E-mail</label><input type="email" id="cloudEmail">
-      <label>Senha</label><input type="password" id="cloudPassword">
-      <div class="row" style="margin-top:8px;">
-        <button class="btn" onclick="cloudLogin()">Entrar</button>
-        <button class="btn" onclick="cloudSignup()">Criar conta</button>
-      </div>`;
-    return;
-  }
-  const code = localStorage.getItem(K.syncCode);
-  area.innerHTML = `
-    <small class="hint">Conectado como ${escapeHtml(current.email)}</small>
-    <div class="row" style="margin-top:8px;">
-      <button class="btn" onclick="cloudLogout()">Sair</button>
-      ${code ? '' : '<button class="btn btn-primary" onclick="generateSyncCode()">Gerar código de sincronização</button>'}
-    </div>
-    ${code ? `<div style="margin-top:10px;"><label>Código de sincronização (compartilhe entre dispositivos)</label><input type="text" value="${escapeHtml(code)}" readonly></div>` : ''}
-    <div style="margin-top:10px;"><label>Já tem um código? Cole aqui para sincronizar este dispositivo</label>
-      <div class="row"><input type="text" id="joinCodeInput" class="grow" placeholder="Cole o código aqui">
-      <button class="btn" onclick="joinSyncCode()">Sincronizar</button></div>
-    </div>`;
-}
-
-async function cloudLogin(){
-  const email = document.getElementById('cloudEmail').value.trim();
-  const pass = document.getElementById('cloudPassword').value;
-  try{ await fbAuth.signInWithEmailAndPassword(email, pass); showToast('Login realizado.'); startCloudListenerIfCode(); }
-  catch(e){ showToast('Falha no login: ' + e.message, 'error'); }
-}
-async function cloudSignup(){
-  const email = document.getElementById('cloudEmail').value.trim();
-  const pass = document.getElementById('cloudPassword').value;
-  try{ await fbAuth.createUserWithEmailAndPassword(email, pass); showToast('Conta criada.'); }
-  catch(e){ showToast('Falha ao criar conta: ' + e.message, 'error'); }
-}
-function cloudLogout(){
-  fbAuth.signOut();
-  if(cloudUnsub){ cloudUnsub(); cloudUnsub = null; }
-  renderCloudAuthArea();
-}
-async function generateSyncCode(){
-  const code = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())) + '-' + Math.random().toString(36).slice(2,10);
-  localStorage.setItem(K.syncCode, code);
-  await fbDb.collection('syncData').doc(code).set({ payload: JSON.stringify(state), _writerId: WRITER_ID, _ts: Date.now() });
-  renderCloudAuthArea();
-  startCloudListenerIfCode();
-  showToast('Código gerado. Copie e use nos outros dispositivos.');
-}
-function joinSyncCode(){
-  const code = document.getElementById('joinCodeInput').value.trim();
-  if(!code){ return; }
-  localStorage.setItem(K.syncCode, code);
-  startCloudListenerIfCode();
-  renderCloudAuthArea();
-  showToast('Sincronização ativada com o código informado.');
-}
-function startCloudListenerIfCode(){
-  const code = localStorage.getItem(K.syncCode);
-  if(!code || !fbDb || !fbAuth.currentUser) return;
+function startCloudListener(){
+  if(!fbDb || !fbAuth || !fbAuth.currentUser) return;
   if(cloudUnsub) cloudUnsub();
-  cloudUnsub = fbDb.collection('syncData').doc(code).onSnapshot(doc => {
+  cloudUnsub = fbDb.collection('syncData').doc(EMBEDDED_SYNC_CODE).onSnapshot(doc => {
     const data = doc.data();
     if(!data || data._writerId === WRITER_ID) return;
     try{
-      const parsed = JSON.parse(data.payload);
-      state = parsed;
+      state = JSON.parse(data.payload);
       saveData({skipCloud:true});
       showToast('Dados atualizados pela nuvem.');
     }catch(e){}
   });
 }
+
 function scheduleCloudPush(){
-  const code = localStorage.getItem(K.syncCode);
-  if(!code || !fbDb || !fbAuth || !fbAuth.currentUser) return;
+  if(!fbDb || !fbAuth || !fbAuth.currentUser) return;
   clearTimeout(pushTimer);
   pushTimer = setTimeout(() => {
-    fbDb.collection('syncData').doc(code).set({ payload: JSON.stringify(state), _writerId: WRITER_ID, _ts: Date.now() });
+    fbDb.collection('syncData').doc(EMBEDDED_SYNC_CODE).set({ payload: JSON.stringify(state), _writerId: WRITER_ID, _ts: Date.now() });
   }, 800);
+}
+
+function forceCloudPush(){
+  if(!fbDb || !fbAuth || !fbAuth.currentUser){ showToast('Faça login para sincronizar.', 'error'); return; }
+  fbDb.collection('syncData').doc(EMBEDDED_SYNC_CODE).set({ payload: JSON.stringify(state), _writerId: WRITER_ID, _ts: Date.now() });
+  showToast('Enviado para a nuvem.');
+}
+
+function renderCloudStatusArea(){
+  const area = document.getElementById('cloudStatusArea');
+  if(!area) return;
+  const user = fbAuth && fbAuth.currentUser;
+  area.innerHTML = `
+    <small class="hint">Conectado como <strong>${escapeHtml(user?user.email:'—')}</strong></small>
+    <div style="margin-top:10px;">
+      <label>Código de sincronização (compartilhe apenas com quem for usar o Acácia724)</label>
+      <input type="text" value="${escapeHtml(EMBEDDED_SYNC_CODE)}" readonly>
+    </div>
+    <div class="row" style="margin-top:8px;">
+      <button class="btn" onclick="forceCloudPush()">↺ Forçar envio para a nuvem</button>
+    </div>`;
 }
 
 /* ============================================================
@@ -1377,17 +1433,17 @@ function scheduleCloudPush(){
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initTabs();
+  initSideNav();
   initAuth();
   initCalendar();
   initEventFilters();
 
-  document.getElementById('lockNowBtn').onclick = lockNow;
+  document.getElementById('logoutBtn').onclick = logoutNow;
   document.getElementById('addMemberBtn').onclick = () => openMemberModal(null);
   document.getElementById('searchMembers').addEventListener('input', e => renderMembers(e.target.value));
   document.getElementById('exportBtn').onclick = exportJson;
   document.getElementById('importBtn').onclick = () => document.getElementById('importFile').click();
   document.getElementById('importFile').addEventListener('change', e => { if(e.target.files[0]) importJson(e.target.files[0]); });
-  document.getElementById('saveFirebaseConfigBtn').onclick = saveFirebaseConfig;
   document.getElementById('changePasswordBtn').onclick = changePassword;
   document.getElementById('generateSessionsBtn').onclick = onGenerateSessions;
   document.getElementById('addSpecialBtn').onclick = () => openSpecialModal(null);
