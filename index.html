@@ -50,6 +50,7 @@ button,input,select,textarea{font-family:inherit;}
 .installBox{background:var(--bg-card);border:1px solid var(--accent-dim);border-radius:14px;padding:18px;box-shadow:var(--shadow);text-align:center;}
 .installBox strong{color:var(--accent);display:block;margin-bottom:6px;font-size:1em;}
 .installBox p{margin:0 0 12px;font-size:.85em;color:var(--text-dim);}
+.installNote{font-size:.78em;color:var(--text-dim);margin-top:-4px;margin-bottom:12px;text-align:left;}
 .installBox .row{justify-content:center;gap:8px;flex-wrap:wrap;}
 
 /* ---------- app shell ---------- */
@@ -167,6 +168,7 @@ small.hint{color:var(--text-dim);}
     <div class="installBox">
       <strong>📲 Instale o app no seu celular</strong>
       <p id="installText">Assim você abre a agenda direto da tela inicial, como um aplicativo.</p>
+      <p id="installPlayProtectNote" class="installNote hidden">Se aparecer um aviso do Google Play Protect dizendo que o app é "de risco" ou "feito para uma versão antiga do Android", pode instalar normalmente — é um alerta padrão do Android para apps mais simples como este, não é um problema de segurança. Toque em "Instalar assim mesmo".</p>
       <div class="row">
         <button id="installBtn" class="btn btn-primary btn-sm">Instalar agora</button>
         <button id="installDismissBtn" class="btn btn-sm">Agora não</button>
@@ -1681,10 +1683,12 @@ function maybeShowInstallBanner(){
   if(deferredInstallPrompt){
     document.getElementById('installText').textContent = 'Assim você abre a agenda direto da tela inicial, como um aplicativo — sem precisar digitar o endereço toda vez.';
     document.getElementById('installBtn').classList.remove('hidden');
+    document.getElementById('installPlayProtectNote').classList.remove('hidden');
     banner.classList.remove('hidden');
   } else if(isIOSDevice()){
     document.getElementById('installText').textContent = 'No iPhone: toque no ícone de compartilhar (□↑) na barra do navegador e depois em "Adicionar à Tela de Início".';
     document.getElementById('installBtn').classList.add('hidden');
+    document.getElementById('installPlayProtectNote').classList.add('hidden');
     banner.classList.remove('hidden');
   }
 }

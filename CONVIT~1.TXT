@@ -10,6 +10,8 @@ Para acessar a agenda da Loja pelo celular ou computador, siga os passos:
 
 📲 Dica: na tela inicial vai aparecer um botão para instalar o app no celular — assim ele fica com ícone próprio, como um aplicativo de verdade.
 
+🛡️ Se aparecer um aviso do Google Play Protect dizendo "App de risco bloqueado" ou algo parecido, pode instalar sem medo — é um alerta padrão do Android para apps mais simples como este, não é vírus nem problema de segurança. É só tocar em "Instalar assim mesmo".
+
 ⚠️ Importante: "Criar cadastro" é só na primeira vez. Da próxima vez, use sempre "Entrar". Se esquecer a senha, use "Esqueci minha senha" na própria tela de login — não crie um cadastro novo.
 
 Qualquer dúvida, me chame por aqui.
